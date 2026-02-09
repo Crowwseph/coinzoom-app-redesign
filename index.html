@@ -302,13 +302,19 @@ function CoinZoomRedesign() {
   const [showBuyZoom, setShowBuyZoom] = useState(false);
   const [zoomAmount, setZoomAmount] = useState("100");
   const [toastMessage, setToastMessage] = useState("");
+  const [spendView, setSpendView] = useState("main");
+  const [budgets, setBudgets] = useState({
+    "Shopping": 200, "Groceries": 150, "Auto & Gas": 100,
+    "Transportation": 50, "Food & Drink": 75, "Entertainment": 30, "Technology": 25,
+  });
+  const [editingBudget, setEditingBudget] = useState(null);
   const [moreSubScreen, setMoreSubScreen] = useState(null);
   const [tradingView, setTradingView] = useState("market");
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [tradeType, setTradeType] = useState("buy");
   const [tradeSearchVal, setTradeSearchVal] = useState("");
   const [chartTimeframe, setChartTimeframe] = useState("1D");
-  useEffect(() => { setMoreSubScreen(null); setTradingView("market"); setSelectedAsset(null); setTradeSearchVal(""); }, [activeTab]);
+  useEffect(() => { setMoreSubScreen(null); setTradingView("market"); setSelectedAsset(null); setTradeSearchVal(""); setSpendView("main"); }, [activeTab]);
 
   const numpad = (val) => {
     if (val === "del") setAmount((p) => p.length > 1 ? p.slice(0, -1) : "0");
@@ -631,7 +637,239 @@ function CoinZoomRedesign() {
   };
 
   // ── Spend Screen ──────────────────────────────────────
-  const SpendScreen = () => (
+  const SpendScreen = () => {
+    const spendingData = [
+      { category: "Shopping", amount: 124.95, color: "#8B5CF6", icon: "📦", txCount: 1 },
+      { category: "Groceries", amount: 67.43, color: "#F59E0B", icon: "🛒", txCount: 1 },
+      { category: "Auto & Gas", amount: 52.18, color: "#3B82F6", icon: "⛽", txCount: 1 },
+      { category: "Transportation", amount: 23.40, color: "#14B8A6", icon: "🚗", txCount: 1 },
+      { category: "Food & Drink", amount: 19.60, color: "#EF4444", icon: "☕", txCount: 2 },
+      { category: "Entertainment", amount: 15.99, color: "#EC4899", icon: "🎬", txCount: 1 },
+      { category: "Technology", amount: 0.99, color: "#6366F1", icon: "🍎", txCount: 1 },
+    ];
+    const totalMonthSpend = spendingData.reduce((s, d) => s + d.amount, 0);
+    const totalRewards = totalMonthSpend * 0.05;
+
+    const monthlyTrend = [
+      { month: "Sep", amount: 412 },
+      { month: "Oct", amount: 287 },
+      { month: "Nov", amount: 356 },
+      { month: "Dec", amount: 524 },
+      { month: "Jan", amount: 389 },
+      { month: "Feb", amount: totalMonthSpend },
+    ];
+    const trendMax = Math.max(...monthlyTrend.map(m => m.amount));
+
+    const topMerchants = [
+      { name: "Amazon.com", amount: 124.95, txCount: 1, category: "Shopping" },
+      { name: "Whole Foods Market", amount: 67.43, txCount: 1, category: "Groceries" },
+      { name: "Shell Gas Station", amount: 52.18, txCount: 1, category: "Auto & Gas" },
+      { name: "Uber", amount: 23.40, txCount: 1, category: "Transportation" },
+      { name: "Starbucks", amount: 12.85, txCount: 2, category: "Food & Drink" },
+    ];
+
+    // ── Spending Detail View ──
+    if (spendView === "detail") {
+      return (
+        <div style={{ padding: "0 20px 120px" }}>
+          {/* Header */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 0 20px" }}>
+            <div onClick={() => setSpendView("main")} style={{ cursor: "pointer", display: "flex" }}><Icons.Back /></div>
+            <h1 style={{ fontSize: 22, fontWeight: 700, color: t.text, margin: 0, letterSpacing: "-0.02em" }}>Spending Insights</h1>
+          </div>
+
+          {/* Summary Cards */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 24 }}>
+            <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "14px 12px", textAlign: "center" }}>
+              <div style={{ fontSize: 10, color: t.textTer, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 4, fontWeight: 600 }}>This Month</div>
+              <div style={{ fontSize: 20, fontWeight: 700, color: t.text, letterSpacing: "-0.02em" }}>${totalMonthSpend.toFixed(0)}</div>
+            </div>
+            <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "14px 12px", textAlign: "center" }}>
+              <div style={{ fontSize: 10, color: t.textTer, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 4, fontWeight: 600 }}>vs Last Month</div>
+              <div style={{ fontSize: 20, fontWeight: 700, color: "#ef4444", letterSpacing: "-0.02em" }}>-22%</div>
+            </div>
+            <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "14px 12px", textAlign: "center" }}>
+              <div style={{ fontSize: 10, color: t.textTer, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 4, fontWeight: 600 }}>Rewards</div>
+              <div style={{ fontSize: 20, fontWeight: 700, color: t.green, letterSpacing: "-0.02em" }}>${totalRewards.toFixed(0)}</div>
+            </div>
+          </div>
+
+          {/* Larger Donut Chart */}
+          {(() => {
+            const donutSize = 200, strokeW = 24, radius = (donutSize - strokeW) / 2;
+            const circumference = 2 * Math.PI * radius;
+            let cumulativeOffset = 0;
+            return (
+              <div style={{
+                background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.lg,
+                padding: "24px", marginBottom: 24, display: "flex", justifyContent: "center",
+              }}>
+                <div style={{ position: "relative", width: donutSize, height: donutSize }}>
+                  <svg width={donutSize} height={donutSize} viewBox={`0 0 ${donutSize} ${donutSize}`} style={{ transform: "rotate(-90deg)" }}>
+                    {spendingData.map((d, i) => {
+                      const pct = d.amount / totalMonthSpend;
+                      const dashLength = pct * circumference;
+                      const gap = circumference - dashLength;
+                      const offset = cumulativeOffset;
+                      cumulativeOffset += dashLength;
+                      return (
+                        <circle
+                          key={i}
+                          cx={donutSize / 2} cy={donutSize / 2} r={radius}
+                          fill="none" stroke={d.color} strokeWidth={strokeW}
+                          strokeDasharray={`${dashLength} ${gap}`}
+                          strokeDashoffset={-offset}
+                          strokeLinecap="butt"
+                          style={{ transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)" }}
+                        />
+                      );
+                    })}
+                  </svg>
+                  <div style={{
+                    position: "absolute", top: 0, left: 0, width: "100%", height: "100%",
+                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <div style={{ fontSize: 12, color: t.textTer, fontWeight: 500, marginBottom: 4 }}>Total Spent</div>
+                    <div style={{ fontSize: 28, fontWeight: 700, color: t.text, letterSpacing: "-0.02em" }}>${totalMonthSpend.toFixed(0)}</div>
+                    <div style={{ fontSize: 11, color: t.green, fontWeight: 600 }}>7 categories</div>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* Category Breakdown with Budgets */}
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+              <span style={{ fontSize: 15, fontWeight: 700, color: t.text, letterSpacing: "-0.01em" }}>Categories</span>
+              <span style={{ fontSize: 12, color: t.textTer }}>Tap to set budget</span>
+            </div>
+            {spendingData.map((d, i) => {
+              const budget = budgets[d.category] || 0;
+              const budgetPct = budget > 0 ? Math.min((d.amount / budget) * 100, 100) : 0;
+              const isOver = d.amount > budget && budget > 0;
+              return (
+                <div key={i} style={{ marginBottom: 16 }}>
+                  <div
+                    onClick={() => setEditingBudget(editingBudget === d.category ? null : d.category)}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", marginBottom: 8 }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: t.radius.sm, background: t.surface, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>{d.icon}</div>
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 600, color: t.text }}>{d.category}</div>
+                        <div style={{ fontSize: 11, color: t.textTer }}>{d.txCount} transaction{d.txCount > 1 ? "s" : ""} · +${(d.amount * 0.05).toFixed(2)} ZOOM</div>
+                      </div>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: t.text }}>${d.amount.toFixed(2)}</div>
+                      {budget > 0 && (
+                        <div style={{ fontSize: 11, fontWeight: 600, color: isOver ? "#ef4444" : t.green }}>
+                          {isOver ? "Over budget" : `$${(budget - d.amount).toFixed(0)} left`}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Progress bar */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ flex: 1, background: t.surface, borderRadius: t.radius.full, height: 6, overflow: "hidden" }}>
+                      <div style={{
+                        height: "100%", borderRadius: t.radius.full,
+                        width: budget > 0 ? `${budgetPct}%` : `${(d.amount / totalMonthSpend * 100)}%`,
+                        background: isOver ? "linear-gradient(135deg, #ef4444, #dc2626)" : `linear-gradient(135deg, ${d.color}, ${d.color}dd)`,
+                        transition: "width 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+                      }} />
+                    </div>
+                    {budget > 0 && (
+                      <span style={{ fontSize: 10, color: t.textTer, minWidth: 28 }}>{budgetPct.toFixed(0)}%</span>
+                    )}
+                  </div>
+
+                  {/* Budget Editor (expandable) */}
+                  {editingBudget === d.category && (
+                    <div style={{
+                      marginTop: 10, background: t.surface, borderRadius: t.radius.md,
+                      padding: "12px 14px", border: `1px solid ${t.cardBorder}`,
+                      animation: "fadeSlideIn 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+                    }}>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: t.textSec, marginBottom: 8 }}>Monthly Budget</div>
+                      <div style={{ display: "flex", gap: 8 }}>
+                        {[25, 50, 75, 100, 150, 200, 300].map(amt => (
+                          <button key={amt} onClick={() => setBudgets(prev => ({ ...prev, [d.category]: amt }))} style={{
+                            padding: "6px 10px", borderRadius: t.radius.sm, border: "none", fontSize: 12, fontWeight: 600,
+                            background: budget === amt ? d.color : t.card,
+                            color: budget === amt ? "#fff" : t.textSec,
+                            cursor: "pointer", transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+                          }}>${amt}</button>
+                        ))}
+                      </div>
+                      <button onClick={() => { setBudgets(prev => ({ ...prev, [d.category]: 0 })); setEditingBudget(null); }} style={{
+                        marginTop: 8, padding: "6px 0", background: "none", border: "none",
+                        fontSize: 11, color: t.textTer, cursor: "pointer", fontWeight: 500,
+                      }}>Remove budget</button>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Monthly Trend */}
+          <div style={{
+            background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.lg,
+            padding: "20px", marginBottom: 24,
+          }}>
+            <span style={{ fontSize: 15, fontWeight: 700, color: t.text, letterSpacing: "-0.01em" }}>Monthly Trend</span>
+            <div style={{ display: "flex", alignItems: "flex-end", gap: 8, marginTop: 16, height: 100 }}>
+              {monthlyTrend.map((m, i) => {
+                const barH = (m.amount / trendMax) * 80;
+                const isCurrent = i === monthlyTrend.length - 1;
+                return (
+                  <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+                    <span style={{ fontSize: 10, fontWeight: 600, color: isCurrent ? t.text : t.textTer }}>${m.amount.toFixed(0)}</span>
+                    <div style={{
+                      width: "100%", borderRadius: 6, height: barH,
+                      background: isCurrent ? t.greenGrad : t.surface,
+                      border: isCurrent ? `1px solid ${t.greenBorder}` : `1px solid ${t.cardBorder}`,
+                      transition: "height 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+                    }} />
+                    <span style={{ fontSize: 10, color: isCurrent ? t.green : t.textTer, fontWeight: isCurrent ? 600 : 400 }}>{m.month}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Top Merchants */}
+          <div style={{ marginBottom: 24 }}>
+            <span style={{ fontSize: 15, fontWeight: 700, color: t.text, display: "block", marginBottom: 14, letterSpacing: "-0.01em" }}>Top Merchants</span>
+            {topMerchants.map((m, i) => (
+              <div key={i} style={{
+                display: "flex", alignItems: "center", justifyContent: "space-between",
+                padding: "12px 0", borderBottom: i < topMerchants.length - 1 ? `1px solid ${t.divider}` : "none",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div style={{
+                    width: 28, height: 28, borderRadius: "50%", background: t.surface,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 13, fontWeight: 700, color: t.textSec,
+                  }}>{i + 1}</div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: t.text }}>{m.name}</div>
+                    <div style={{ fontSize: 11, color: t.textTer }}>{m.category} · {m.txCount} transaction{m.txCount > 1 ? "s" : ""}</div>
+                  </div>
+                </div>
+                <span style={{ fontSize: 14, fontWeight: 600, color: t.text }}>${m.amount.toFixed(2)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // ── Main Spend View ──
+    return (
     <div style={{ padding: "0 20px 120px" }}>
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 0 6px" }}>
@@ -698,16 +936,7 @@ function CoinZoomRedesign() {
 
       {/* ── Spending Breakdown ── */}
       {(() => {
-        const spendingData = [
-          { category: "Shopping", amount: 124.95, color: "#8B5CF6" },
-          { category: "Groceries", amount: 67.43, color: "#F59E0B" },
-          { category: "Auto & Gas", amount: 52.18, color: "#3B82F6" },
-          { category: "Transportation", amount: 23.40, color: "#14B8A6" },
-          { category: "Food & Drink", amount: 19.60, color: "#EF4444" },
-          { category: "Entertainment", amount: 15.99, color: "#EC4899" },
-          { category: "Technology", amount: 0.99, color: "#6366F1" },
-        ];
-        const totalSpend = spendingData.reduce((s, d) => s + d.amount, 0);
+        const totalSpend = totalMonthSpend;
 
         // Build SVG donut segments
         const donutSize = 140, strokeW = 18, radius = (donutSize - strokeW) / 2;
@@ -717,11 +946,17 @@ function CoinZoomRedesign() {
         return (
           <div style={{
             background: t.cardGrad, borderRadius: t.radius.lg, padding: "20px",
-            marginBottom: 20, border: `1px solid ${t.cardBorder}`,
-          }}>
+            marginBottom: 20, border: `1px solid ${t.cardBorder}`, cursor: "pointer",
+            transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+          }}
+          onClick={() => setSpendView("detail")}
+          >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
               <span style={{ fontSize: 15, fontWeight: 700, color: t.text, letterSpacing: "-0.01em" }}>Spending Breakdown</span>
-              <span style={{ fontSize: 12, fontWeight: 500, color: t.textTer }}>This Month</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <span style={{ fontSize: 12, fontWeight: 500, color: t.textTer }}>This Month</span>
+                <Icons.ChevronRight />
+              </div>
             </div>
 
             <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
@@ -871,6 +1106,7 @@ function CoinZoomRedesign() {
       </div>
     </div>
   );
+  };
 
   // ── Prime Screen ──────────────────────────────────────
   const MoreScreen = () => (
