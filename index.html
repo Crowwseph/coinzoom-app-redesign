@@ -2202,7 +2202,78 @@ function CoinZoomRedesign() {
     const change24h = 342.18;
     const change24hPercent = 2.73;
 
-    const lessons = [
+    const [learnTab, setLearnTab] = useState("coinzoom");
+
+    // ── CoinZoom Course (4 lessons) ──
+    const coinzoomCourse = [
+      {
+        id: "cz-intro",
+        token: "CoinZoom",
+        symbol: "CZ",
+        reward: 1,
+        color: t.green,
+        duration: "4 min",
+        description: "Get to know CoinZoom — the all-in-one platform for buying, selling, sending, and spending cryptocurrency with ease.",
+        videoTitle: "Getting Started with CoinZoom",
+        youtubeId: "5rtUlBvUvpg",
+        quiz: [
+          { question: "What can you do with CoinZoom?", options: ["Buy, sell, send & spend crypto", "Only buy Bitcoin", "Mine cryptocurrency", "Create NFTs"], correct: 0 },
+          { question: "CoinZoom is registered and licensed in which country?", options: ["United Kingdom", "United States", "Singapore", "Switzerland"], correct: 1 },
+          { question: "What security accreditation does CoinZoom hold?", options: ["ISO 9001", "SOC 2", "PCI Level 1", "HIPAA"], correct: 1 },
+        ]
+      },
+      {
+        id: "cz-trading",
+        token: "CoinZoom",
+        symbol: "CZ",
+        reward: 1,
+        color: t.green,
+        duration: "3 min",
+        description: "Learn how to buy and sell cryptocurrency on CoinZoom with competitive pricing and instant execution.",
+        videoTitle: "How to Buy & Sell Crypto",
+        youtubeId: "-EGTD2cpP-o",
+        quiz: [
+          { question: "What types of orders can you place on CoinZoom?", options: ["Market & limit orders", "Only market orders", "Only futures", "Auction bids"], correct: 0 },
+          { question: "How many cryptocurrencies does CoinZoom support?", options: ["5", "10", "40+", "Over 200"], correct: 2 },
+          { question: "What benefit do ZOOM holders get on trading fees?", options: ["No benefit", "Reduced fees based on tier", "Double fees", "Free gas"], correct: 1 },
+        ]
+      },
+      {
+        id: "cz-zoomme",
+        token: "CoinZoom",
+        symbol: "CZ",
+        reward: 1,
+        color: t.green,
+        duration: "3 min",
+        description: "Discover ZoomMe — CoinZoom's free peer-to-peer transfer feature for sending money instantly to friends and family worldwide.",
+        videoTitle: "Send Money with ZoomMe",
+        youtubeId: "4DKqCvAElMU",
+        quiz: [
+          { question: "What is ZoomMe?", options: ["A free P2P transfer service", "A mining pool", "A crypto wallet", "A trading bot"], correct: 0 },
+          { question: "How much does it cost to send money with ZoomMe?", options: ["$0 — completely free", "$1.99 per transfer", "1% of the amount", "$4.99 flat fee"], correct: 0 },
+          { question: "Can you send money internationally with ZoomMe?", options: ["No, US only", "Yes, instantly worldwide", "Only to Europe", "Only with Bitcoin"], correct: 1 },
+        ]
+      },
+      {
+        id: "cz-card",
+        token: "CoinZoom",
+        symbol: "CZ",
+        reward: 1,
+        color: t.green,
+        duration: "3 min",
+        description: "Learn about the CoinZoom Visa Debit Card — spend your crypto anywhere Visa is accepted and earn up to 5% back in rewards.",
+        videoTitle: "CoinZoom Visa Debit Card",
+        youtubeId: "HR3txd9pmhE",
+        quiz: [
+          { question: "What network does the CoinZoom debit card run on?", options: ["Mastercard", "Visa", "American Express", "Discover"], correct: 1 },
+          { question: "What is the maximum cashback you can earn per purchase?", options: ["1%", "2%", "5%", "10%"], correct: 2 },
+          { question: "What happens when you swipe your card with crypto?", options: ["Nothing", "CoinZoom instantly converts crypto to USD at point of sale", "You pay in Bitcoin directly", "It charges a 5% fee"], correct: 1 },
+        ]
+      },
+    ];
+
+    // ── Crypto Lessons (5 lessons) ──
+    const cryptoLessons = [
       {
         id: "btc",
         token: "Bitcoin",
@@ -2285,6 +2356,8 @@ function CoinZoomRedesign() {
       },
     ];
 
+    const lessons = learnTab === "coinzoom" ? coinzoomCourse : cryptoLessons;
+
     const totalEarned = completedLessons.reduce((sum, id) => {
       const lesson = lessons.find(l => l.id === id);
       return sum + (lesson ? lesson.reward : 0);
@@ -2319,17 +2392,55 @@ function CoinZoomRedesign() {
       setAnswerRevealed(false);
     };
 
-    // Mini portfolio sparkline chart data (7 day view)
-    const chartData = [7800, 8200, 7950, 8450, 8100, 8600, 8700, 8847.81]; // Last value is approx current
-    const minVal = Math.min(...chartData);
-    const maxVal = Math.max(...chartData);
-    const range = maxVal - minVal;
+    // Dynamic portfolio chart data based on selected time filter
+    const portfolioChartData = (() => {
+      const seed = 42;
+      const rng = (s) => { let x = Math.sin(s) * 10000; return x - Math.floor(x); };
+      const endVal = totalValue;
+      const configs = {
+        "1D": { points: 24, variance: 0.003, trend: 0.001 },
+        "1W": { points: 28, variance: 0.008, trend: 0.004 },
+        "1M": { points: 30, variance: 0.02, trend: 0.018 },
+        "3M": { points: 30, variance: 0.05, trend: 0.06 },
+        "1Y": { points: 52, variance: 0.08, trend: 0.35 },
+        "All": { points: 60, variance: 0.12, trend: 0.85 },
+      };
+      const cfg = configs[timeFilter] || configs["1M"];
+      const startVal = endVal / (1 + cfg.trend);
+      const data = [];
+      for (let i = 0; i < cfg.points; i++) {
+        const progress = i / (cfg.points - 1);
+        const base = startVal + (endVal - startVal) * progress;
+        const noise = (rng(seed + i * 7 + timeFilter.length) - 0.5) * 2 * cfg.variance * endVal;
+        data.push(Math.max(base + noise, startVal * 0.8));
+      }
+      data[data.length - 1] = endVal;
+      return data;
+    })();
 
-    const points = chartData.map((val, i) => {
-      const x = (i / (chartData.length - 1)) * 320;
-      const y = 60 - ((val - minVal) / range) * 50;
-      return `${x},${y}`;
-    }).join(" ");
+    const pChartW = 360, pChartH = 120;
+    const pMin = Math.min(...portfolioChartData), pMax = Math.max(...portfolioChartData);
+    const pRange = pMax - pMin || 1;
+    const portfolioPoints = portfolioChartData.map((v, i) =>
+      `${(i / (portfolioChartData.length - 1)) * pChartW},${pChartH - ((v - pMin) / pRange) * (pChartH - 10) - 5}`
+    ).join(" ");
+    const portfolioArea = `M0,${pChartH} ${portfolioChartData.map((v, i) =>
+      `L${(i / (portfolioChartData.length - 1)) * pChartW},${pChartH - ((v - pMin) / pRange) * (pChartH - 10) - 5}`
+    ).join(" ")} L${pChartW},${pChartH} Z`;
+
+    // Performance metrics
+    const chartStart = portfolioChartData[0];
+    const chartEnd = portfolioChartData[portfolioChartData.length - 1];
+    const periodChange = chartEnd - chartStart;
+    const periodChangePercent = ((chartEnd - chartStart) / chartStart * 100);
+    const bestPerformer = [...holdings].sort((a, b) => b.change24h - a.change24h)[0];
+    const worstPerformer = [...holdings].sort((a, b) => a.change24h - b.change24h)[0];
+
+    // Allocation data
+    const allocations = holdings
+      .filter(h => h.value > 0.1)
+      .sort((a, b) => b.value - a.value)
+      .map(h => ({ ...h, pct: (h.value / totalValue * 100) }));
 
     const ModalOverlay = ({ isOpen, onClose, children }) => {
       if (!isOpen) return null;
@@ -2373,65 +2484,121 @@ function CoinZoomRedesign() {
           </button>
         </div>
 
-        {/* Total Balance Card */}
+        {/* ── Portfolio Hero Card ── */}
         <div style={{
-          background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.lg,
-          padding: "20px", marginBottom: 20,
+          background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.xl,
+          padding: "24px 20px 0", marginBottom: 20, overflow: "hidden", boxShadow: t.shadow,
         }}>
-          <div style={{ fontSize: 13, color: t.textSec, marginBottom: 8 }}>Total Balance</div>
-          <div style={{
-            fontSize: 40, fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 12,
-            background: "linear-gradient(135deg, #ffffff 0%, #a8b5c8 50%, #ffffff 100%)",
-            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}>
-            ${totalValue.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div style={{ fontSize: 14, fontWeight: 600, color: t.green }}>
-              +${change24h.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          {/* Balance Section */}
+          <div style={{ marginBottom: 4 }}>
+            <div style={{ fontSize: 13, color: t.textSec, marginBottom: 6, fontWeight: 500, letterSpacing: "0.02em" }}>Total Balance</div>
+            <div style={{
+              fontSize: 42, fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 8, lineHeight: 1,
+              background: "linear-gradient(135deg, #ffffff 0%, #a8b5c8 50%, #ffffff 100%)",
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+            }}>
+              ${totalValue.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: t.green }}>
-              +{change24hPercent.toFixed(2)}%
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 16 }}>
+              <div style={{
+                display: "flex", alignItems: "center", gap: 4, padding: "4px 10px",
+                background: periodChange >= 0 ? t.greenGlow : "rgba(239,68,68,0.12)",
+                borderRadius: t.radius.full, fontSize: 13, fontWeight: 600,
+                color: periodChange >= 0 ? t.green : "#ef4444",
+              }}>
+                {periodChange >= 0 ? "▲" : "▼"} {periodChange >= 0 ? "+" : ""}{periodChangePercent.toFixed(2)}%
+              </div>
+              <span style={{ fontSize: 13, fontWeight: 600, color: periodChange >= 0 ? t.green : "#ef4444" }}>
+                {periodChange >= 0 ? "+" : ""}${Math.abs(periodChange).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </span>
+              <span style={{ fontSize: 12, color: t.textTer }}>{timeFilter}</span>
             </div>
-            <div style={{ fontSize: 12, color: t.textTer }}>24h</div>
           </div>
-        </div>
 
-        {/* Portfolio Chart */}
-        <div style={{
-          background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.lg,
-          padding: "16px", marginBottom: 20,
-        }}>
-          <svg width="100%" height="100" viewBox="0 0 340 80" style={{ marginBottom: 12 }}>
-            <defs>
-              <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" style={{ stopColor: t.green, stopOpacity: 0.3 }} />
-                <stop offset="100%" style={{ stopColor: t.green, stopOpacity: 0.05 }} />
-              </linearGradient>
-            </defs>
-            <polyline points={points} fill="none" stroke={t.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            <polyline points={points + " 340,80 0,80"} fill="url(#chartGradient)" />
-          </svg>
+          {/* Interactive Chart */}
+          <div style={{ margin: "0 -20px", padding: "0" }}>
+            <svg width="100%" viewBox={`0 0 ${pChartW} ${pChartH}`} preserveAspectRatio="none" style={{ display: "block" }}>
+              <defs>
+                <linearGradient id="portfolioGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={periodChange >= 0 ? t.green : "#ef4444"} stopOpacity="0.25" />
+                  <stop offset="60%" stopColor={periodChange >= 0 ? t.green : "#ef4444"} stopOpacity="0.08" />
+                  <stop offset="100%" stopColor={periodChange >= 0 ? t.green : "#ef4444"} stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <path d={portfolioArea} fill="url(#portfolioGrad)" />
+              <polyline points={portfolioPoints} fill="none" stroke={periodChange >= 0 ? t.green : "#ef4444"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ filter: `drop-shadow(0 0 6px ${periodChange >= 0 ? t.greenGlow : "rgba(239,68,68,0.3)"})` }} />
+              {/* Current price dot */}
+              <circle cx={pChartW} cy={portfolioChartData.length > 0 ? pChartH - ((portfolioChartData[portfolioChartData.length-1] - pMin) / pRange) * (pChartH - 10) - 5 : pChartH/2} r="4" fill={periodChange >= 0 ? t.green : "#ef4444"} stroke={t.card} strokeWidth="2" />
+            </svg>
+          </div>
 
-          {/* Time Filter Pills */}
-          <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
+          {/* Time Filters — inside the card */}
+          <div style={{ display: "flex", gap: 4, justifyContent: "center", padding: "14px 0 16px", borderTop: `1px solid ${t.divider}`, margin: "0" }}>
             {["1D", "1W", "1M", "3M", "1Y", "All"].map((filter) => (
               <button
                 key={filter}
                 onClick={() => setTimeFilter(filter)}
                 style={{
-                  background: filter === timeFilter ? t.green : t.surface,
-                  border: filter === timeFilter ? `1px solid ${t.green}` : `1px solid ${t.cardBorder}`,
-                  borderRadius: 8, padding: "6px 12px", fontSize: 12, fontWeight: 500,
-                  color: filter === timeFilter ? "#fff" : t.textSec, cursor: "pointer",
-                  transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+                  background: filter === timeFilter ? t.green : "transparent",
+                  border: "none",
+                  borderRadius: t.radius.full, padding: "6px 14px", fontSize: 12, fontWeight: 600,
+                  color: filter === timeFilter ? "#fff" : t.textTer, cursor: "pointer",
+                  transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)", letterSpacing: "0.02em",
                 }}
-                onMouseDown={(e) => { if (filter === timeFilter) e.currentTarget.style.opacity = "0.8"; }}
-                onMouseUp={(e) => { e.currentTarget.style.opacity = "1"; }}
               >
                 {filter}
               </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Performance Stats ── */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 20 }}>
+          <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "14px 16px" }}>
+            <div style={{ fontSize: 11, color: t.textTer, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 6, fontWeight: 600 }}>Period Return</div>
+            <div style={{ fontSize: 20, fontWeight: 700, color: periodChange >= 0 ? t.green : "#ef4444", letterSpacing: "-0.02em" }}>
+              {periodChange >= 0 ? "+" : ""}{periodChangePercent.toFixed(2)}%
+            </div>
+            <div style={{ fontSize: 12, color: t.textTer, marginTop: 2 }}>
+              {periodChange >= 0 ? "+" : ""}${Math.abs(periodChange).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </div>
+          </div>
+          <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "14px 16px" }}>
+            <div style={{ fontSize: 11, color: t.textTer, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 6, fontWeight: 600 }}>Best Performer</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <div style={{ width: 22, height: 22, borderRadius: "50%", background: bestPerformer.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, color: "#fff" }}>{bestPerformer.symbol[0]}</div>
+              <span style={{ fontSize: 15, fontWeight: 700, color: t.text }}>{bestPerformer.symbol}</span>
+            </div>
+            <div style={{ fontSize: 12, color: t.green, fontWeight: 600, marginTop: 4 }}>+{bestPerformer.change24h.toFixed(2)}% today</div>
+          </div>
+        </div>
+
+        {/* ── Asset Allocation ── */}
+        <div style={{
+          background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.lg,
+          padding: "16px 18px", marginBottom: 24,
+        }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: t.text, marginBottom: 14, letterSpacing: "-0.01em" }}>Asset Allocation</div>
+
+          {/* Stacked bar */}
+          <div style={{ display: "flex", borderRadius: t.radius.full, overflow: "hidden", height: 10, marginBottom: 14, background: t.surface }}>
+            {allocations.map((a, i) => (
+              <div key={a.symbol} style={{
+                width: `${a.pct}%`, background: a.color, height: "100%",
+                borderRight: i < allocations.length - 1 ? `1px solid ${t.bg}` : "none",
+                transition: "width 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+              }} />
+            ))}
+          </div>
+
+          {/* Legend */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+            {allocations.map(a => (
+              <div key={a.symbol} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{ width: 8, height: 8, borderRadius: "50%", background: a.color }} />
+                <span style={{ fontSize: 12, color: t.textSec, fontWeight: 500 }}>{a.symbol}</span>
+                <span style={{ fontSize: 12, color: t.textTer }}>{a.pct.toFixed(1)}%</span>
+              </div>
             ))}
           </div>
         </div>
@@ -2524,50 +2691,122 @@ function CoinZoomRedesign() {
           {/* Section Header */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
             <div>
-              <h2 style={{ fontSize: 18, fontWeight: 700, color: t.text, margin: 0 }}>Learn & Earn</h2>
+              <h2 style={{ fontSize: 18, fontWeight: 700, color: t.text, margin: 0, letterSpacing: "-0.01em" }}>Learn & Earn</h2>
               <p style={{ fontSize: 13, color: t.textSec, margin: "4px 0 0" }}>Watch, learn, and earn free crypto</p>
             </div>
             {totalEarned > 0 && (
-              <div style={{ background: t.greenGlow, border: `1px solid ${t.greenBorder}`, borderRadius: t.radius.lg, padding: "6px 12px" }}>
+              <div style={{ background: t.greenGlow, border: `1px solid ${t.greenBorder}`, borderRadius: t.radius.full, padding: "6px 14px" }}>
                 <span style={{ fontSize: 12, fontWeight: 600, color: t.green }}>Earned ${totalEarned.toFixed(2)}</span>
               </div>
             )}
           </div>
 
-          {/* Horizontal scrollable lesson cards */}
-          <div style={{ display: "flex", gap: 14, overflowX: "auto", paddingBottom: 8, WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}>
-            {lessons.map((lesson) => {
+          {/* Course Tabs */}
+          <div style={{ display: "flex", gap: 0, background: t.surface, borderRadius: t.radius.md, padding: 3, marginBottom: 18 }}>
+            {[
+              { id: "coinzoom", label: "Learn CoinZoom", count: coinzoomCourse.length },
+              { id: "crypto", label: "Crypto Basics", count: cryptoLessons.length },
+            ].map(tab => {
+              const isActive = learnTab === tab.id;
+              const tabCompleted = (tab.id === "coinzoom" ? coinzoomCourse : cryptoLessons).filter(l => completedLessons.includes(l.id)).length;
+              return (
+                <button key={tab.id} onClick={() => setLearnTab(tab.id)} style={{
+                  flex: 1, padding: "10px 8px", borderRadius: t.radius.sm, border: "none",
+                  background: isActive ? t.card : "transparent",
+                  color: isActive ? t.text : t.textTer,
+                  fontSize: 13, fontWeight: 600, cursor: "pointer",
+                  boxShadow: isActive ? t.shadowSm : "none",
+                  transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                }}>
+                  {tab.label}
+                  {tabCompleted > 0 && (
+                    <span style={{
+                      fontSize: 10, fontWeight: 700, background: tabCompleted === tab.count ? t.green : t.surface,
+                      color: tabCompleted === tab.count ? "#fff" : t.textTer,
+                      borderRadius: t.radius.full, padding: "2px 6px", minWidth: 18, textAlign: "center",
+                    }}>{tabCompleted}/{tab.count}</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Course Progress Bar */}
+          {(() => {
+            const currentCourse = learnTab === "coinzoom" ? coinzoomCourse : cryptoLessons;
+            const done = currentCourse.filter(l => completedLessons.includes(l.id)).length;
+            const total = currentCourse.length;
+            const pct = (done / total) * 100;
+            const courseReward = currentCourse.reduce((s, l) => s + l.reward, 0);
+            return done < total ? (
+              <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "12px 16px", marginBottom: 16 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: t.textSec }}>{done} of {total} completed</span>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: t.green }}>Earn up to ${courseReward}</span>
+                </div>
+                <div style={{ background: t.surface, borderRadius: t.radius.full, height: 6, overflow: "hidden" }}>
+                  <div style={{ background: t.greenGrad, height: "100%", width: `${pct}%`, borderRadius: t.radius.full, transition: "width 0.5s cubic-bezier(0.4, 0, 0.2, 1)" }} />
+                </div>
+              </div>
+            ) : (
+              <div style={{ background: t.greenGlow, border: `1px solid ${t.greenBorder}`, borderRadius: t.radius.md, padding: "12px 16px", marginBottom: 16, textAlign: "center" }}>
+                <span style={{ fontSize: 13, fontWeight: 600, color: t.green }}>
+                  ✓ Course complete! You earned ${courseReward} in rewards
+                </span>
+              </div>
+            );
+          })()}
+
+          {/* Lesson Cards */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {lessons.map((lesson, idx) => {
               const isCompleted = completedLessons.includes(lesson.id);
               return (
                 <div
                   key={lesson.id}
                   onClick={() => !isCompleted && openLesson(lesson.id)}
                   style={{
-                    minWidth: 160, background: t.cardGrad, borderRadius: t.radius.lg, padding: 16,
+                    display: "flex", alignItems: "center", gap: 14,
+                    background: t.cardGrad, borderRadius: t.radius.md, padding: "14px 16px",
                     border: `1px solid ${isCompleted ? t.greenBorder : t.cardBorder}`,
-                    cursor: isCompleted ? "default" : "pointer", opacity: isCompleted ? 0.7 : 1,
-                    transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)", position: "relative", flexShrink: 0,
+                    cursor: isCompleted ? "default" : "pointer",
+                    opacity: isCompleted ? 0.75 : 1,
+                    transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
                   }}
                 >
-                  {/* Completed badge */}
-                  {isCompleted && (
-                    <div style={{ position: "absolute", top: 10, right: 10, background: t.green, borderRadius: "50%", width: 22, height: 22, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    </div>
-                  )}
-                  {/* Token icon */}
-                  <div style={{ width: 44, height: 44, borderRadius: "50%", background: lesson.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 12 }}>
-                    {lesson.symbol[0]}
+                  {/* Step number or check */}
+                  <div style={{
+                    width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
+                    background: isCompleted ? t.green : lesson.color,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: isCompleted ? 0 : 14, fontWeight: 700, color: "#fff",
+                    boxShadow: isCompleted ? `0 0 12px ${t.greenGlow}` : "none",
+                  }}>
+                    {isCompleted ? (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    ) : (idx + 1)}
                   </div>
-                  {/* Token name */}
-                  <div style={{ fontSize: 14, fontWeight: 600, color: t.text, marginBottom: 4 }}>{lesson.token}</div>
-                  {/* Duration */}
-                  <div style={{ fontSize: 11, color: t.textTer, marginBottom: 10 }}>{lesson.duration}</div>
-                  {/* Reward */}
-                  <div style={{ background: isCompleted ? t.surface : t.greenGlow, borderRadius: 8, padding: "5px 8px", display: "inline-block" }}>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: isCompleted ? t.textTer : t.green }}>
-                      {isCompleted ? "Earned" : `Earn $${lesson.reward}`}
-                    </span>
+
+                  {/* Lesson info */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: t.text, marginBottom: 2 }}>{lesson.videoTitle}</div>
+                    <div style={{ fontSize: 11, color: t.textTer }}>{lesson.duration} · {isCompleted ? "Completed" : `Earn $${lesson.reward} ZOOM`}</div>
+                  </div>
+
+                  {/* Play icon or completed */}
+                  <div style={{ flexShrink: 0 }}>
+                    {isCompleted ? (
+                      <div style={{ fontSize: 12, fontWeight: 600, color: t.green }}>+${lesson.reward}</div>
+                    ) : (
+                      <div style={{
+                        width: 32, height: 32, borderRadius: "50%",
+                        background: t.greenGlow, border: `1px solid ${t.greenBorder}`,
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                      }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill={t.green}><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                      </div>
+                    )}
                   </div>
                 </div>
               );
