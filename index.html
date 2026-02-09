@@ -909,22 +909,6 @@ function CoinZoomRedesign() {
     // ── Main Spend View ──
     return (
     <div style={{ padding: "0 20px 120px" }}>
-      {/* Header */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 0 6px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ background: t.green, borderRadius: t.radius.sm, width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 15, color: "#fff" }}>Z</div>
-          <div style={{ background: t.greenGlow, border: `1px solid ${t.greenBorder}`, borderRadius: t.radius.lg, padding: "4px 12px", fontSize: 12, fontWeight: 600, color: t.green }}>PRIME</div>
-          <div style={{ background: t.greenGlow, border: `1px solid ${t.greenBorder}`, borderRadius: t.radius.lg, padding: "4px 10px", fontSize: 12, fontWeight: 600, color: t.green, display: "flex", alignItems: "center", gap: 4 }}>
-            <Icons.Gift /> $5
-          </div>
-        </div>
-        <div style={{ display: "flex", gap: 6 }}>
-          <div style={{ width: 32, height: 32, borderRadius: "50%", background: t.cardGrad, border: `1px solid ${t.cardBorder}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }} onClick={() => showToast("Added to watchlist")}><Icons.Flag /></div>
-          <div style={{ width: 32, height: 32, borderRadius: "50%", background: t.cardGrad, border: `1px solid ${t.cardBorder}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }} onClick={() => showToast("Price alerts")}><Icons.Clock /></div>
-          <div style={{ width: 32, height: 32, borderRadius: "50%", background: t.cardGrad, border: `1px solid ${t.cardBorder}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }} onClick={() => showToast("Trade info")}><Icons.Help /></div>
-        </div>
-      </div>
-
       <h1 style={{ fontSize: 28, fontWeight: 700, color: t.text, margin: "16px 0 20px", letterSpacing: "-0.02em" }}>Spend</h1>
 
       {/* Balance */}
