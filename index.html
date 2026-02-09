@@ -268,6 +268,81 @@ const tradingAssets = [
   { symbol: "ADA", name: "Cardano", price: 0.62, change24h: 1.05, color: "#0033AD", mcap: "$22B", vol: "$560M", supply: "35.5B" },
 ];
 
+const trendingArticles = [
+  {
+    id: 1,
+    title: "Bitcoin Surges Past $67K as Institutional Demand Hits Record",
+    source: "CoinDesk",
+    sourceColor: "#4A90D9",
+    timeAgo: "2h ago",
+    tags: ["BTC"],
+    tagColors: ["#F7931A"],
+    category: "Market",
+    image: "https://placehold.co/80x80/1a1f2e/F7931A?text=BTC",
+    summary: "Institutional investors drove Bitcoin to new highs as ETF inflows exceeded $800M in a single day.",
+  },
+  {
+    id: 2,
+    title: "Ethereum Layer 2 Activity Explodes, Gas Fees Hit Multi-Year Low",
+    source: "The Block",
+    sourceColor: "#627EEA",
+    timeAgo: "4h ago",
+    tags: ["ETH"],
+    tagColors: ["#627EEA"],
+    category: "Technology",
+    image: "https://placehold.co/80x80/1a1f2e/627EEA?text=ETH",
+    summary: "Scaling solutions push Ethereum transaction costs below $0.01 for the first time since 2020.",
+  },
+  {
+    id: 3,
+    title: "Solana DeFi TVL Crosses $8B Milestone Amid Ecosystem Growth",
+    source: "Decrypt",
+    sourceColor: "#14F195",
+    timeAgo: "5h ago",
+    tags: ["SOL"],
+    tagColors: ["#14F195"],
+    category: "DeFi",
+    image: "https://placehold.co/80x80/1a1f2e/14F195?text=SOL",
+    summary: "New protocols and integrations fuel record total value locked on the Solana network.",
+  },
+  {
+    id: 4,
+    title: "CoinZoom Launches Enhanced Staking Rewards for ZOOM Holders",
+    source: "CoinZoom Blog",
+    sourceColor: "#38b249",
+    timeAgo: "8h ago",
+    tags: ["ZOOM"],
+    tagColors: ["#38b249"],
+    category: "Rewards",
+    image: "https://placehold.co/80x80/1a1f2e/38b249?text=ZOOM",
+    summary: "ZOOM token holders can now earn up to 12% APY through the new tiered staking program.",
+  },
+  {
+    id: 5,
+    title: "Chainlink CCIP Adoption Accelerates Across Major DeFi Protocols",
+    source: "CryptoSlate",
+    sourceColor: "#2A5ADA",
+    timeAgo: "12h ago",
+    tags: ["LINK"],
+    tagColors: ["#2A5ADA"],
+    category: "Partnerships",
+    image: "https://placehold.co/80x80/1a1f2e/2A5ADA?text=LINK",
+    summary: "Cross-chain interoperability protocol sees 300% growth in message volume this quarter.",
+  },
+  {
+    id: 6,
+    title: "Avalanche Subnet Architecture Attracts Enterprise Blockchain Projects",
+    source: "CoinTelegraph",
+    sourceColor: "#E84142",
+    timeAgo: "1d ago",
+    tags: ["AVAX"],
+    tagColors: ["#E84142"],
+    category: "Enterprise",
+    image: "https://placehold.co/80x80/1a1f2e/E84142?text=AVAX",
+    summary: "Major financial institutions explore custom blockchain deployments using Avalanche subnets.",
+  },
+];
+
 const generateChartData = (symbol, timeframe, points = 50) => {
   let seed = 0;
   for (let i = 0; i < symbol.length; i++) seed += symbol.charCodeAt(i) * (i + 1);
@@ -465,6 +540,99 @@ function CoinZoomRedesign() {
               </div>
             );
           })}
+
+          {/* ── Trending News Section ── */}
+          <div style={{ marginTop: 28, marginBottom: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ width: 32, height: 32, borderRadius: t.radius.sm, background: "linear-gradient(135deg, rgba(56,178,73,0.15) 0%, rgba(56,178,73,0.05) 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2" strokeLinecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.01em", color: t.text }}>Trending News</span>
+              </div>
+              <span style={{ fontSize: 12, fontWeight: 600, color: t.green, cursor: "pointer" }}>See All</span>
+            </div>
+
+            {/* Featured Article — First article gets a large card */}
+            <div style={{
+              borderRadius: t.radius.lg,
+              background: t.cardGrad,
+              border: `1px solid ${t.cardBorder}`,
+              overflow: "hidden",
+              marginBottom: 12,
+              cursor: "pointer",
+              transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+            }}>
+              <div style={{
+                height: 120,
+                background: `linear-gradient(135deg, ${trendingArticles[0].tagColors[0]}22 0%, transparent 60%)`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                overflow: "hidden",
+              }}>
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: `radial-gradient(circle at 30% 50%, ${trendingArticles[0].tagColors[0]}18 0%, transparent 70%)` }} />
+                <div style={{ width: 56, height: 56, borderRadius: t.radius.md, background: trendingArticles[0].tagColors[0], display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 800, color: "#fff", boxShadow: `0 4px 20px ${trendingArticles[0].tagColors[0]}40` }}>
+                  {trendingArticles[0].tags[0][0]}
+                </div>
+                <div style={{ position: "absolute", top: 10, left: 12 }}>
+                  <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: trendingArticles[0].tagColors[0], background: `${trendingArticles[0].tagColors[0]}18`, padding: "3px 8px", borderRadius: t.radius.full }}>{trendingArticles[0].category}</span>
+                </div>
+              </div>
+              <div style={{ padding: "14px 16px 16px" }}>
+                <div style={{ fontSize: 15, fontWeight: 700, color: t.text, lineHeight: 1.35, marginBottom: 8 }}>{trendingArticles[0].title}</div>
+                <div style={{ fontSize: 12, color: t.textSec, lineHeight: 1.5, marginBottom: 10 }}>{trendingArticles[0].summary}</div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <div style={{ width: 16, height: 16, borderRadius: t.radius.full, background: trendingArticles[0].sourceColor, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 8, fontWeight: 800, color: "#fff" }}>{trendingArticles[0].source[0]}</div>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: t.textTer }}>{trendingArticles[0].source}</span>
+                  </div>
+                  <span style={{ fontSize: 11, color: t.textTer }}>{trendingArticles[0].timeAgo}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Remaining articles — compact list cards */}
+            {trendingArticles.slice(1).map(article => (
+              <div key={article.id} style={{
+                display: "flex",
+                gap: 12,
+                padding: "14px 0",
+                borderBottom: `1px solid ${t.divider}`,
+                cursor: "pointer",
+                transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}>
+                <div style={{
+                  width: 64,
+                  height: 64,
+                  borderRadius: t.radius.md,
+                  background: `linear-gradient(135deg, ${article.tagColors[0]}20 0%, ${article.tagColors[0]}08 100%)`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                  border: `1px solid ${article.tagColors[0]}15`,
+                }}>
+                  <div style={{ width: 32, height: 32, borderRadius: t.radius.sm, background: article.tagColors[0], display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 800, color: "#fff" }}>{article.tags[0]}</div>
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: t.text, lineHeight: 1.4, marginBottom: 6, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{article.title}</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                      <div style={{ width: 14, height: 14, borderRadius: t.radius.full, background: article.sourceColor, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 7, fontWeight: 800, color: "#fff" }}>{article.source[0]}</div>
+                      <span style={{ fontSize: 11, fontWeight: 500, color: t.textTer }}>{article.source}</span>
+                    </div>
+                    <span style={{ fontSize: 10, color: t.textTer }}>·</span>
+                    <span style={{ fontSize: 11, color: t.textTer }}>{article.timeAgo}</span>
+                    <span style={{ fontSize: 10, color: t.textTer }}>·</span>
+                    <span style={{ fontSize: 10, fontWeight: 600, color: article.tagColors[0], background: `${article.tagColors[0]}12`, padding: "2px 6px", borderRadius: t.radius.full }}>{article.tags[0]}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
       );
     }
