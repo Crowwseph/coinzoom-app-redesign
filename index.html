@@ -609,7 +609,7 @@ function CoinZoomRedesign() {
             </div>
 
             {/* Featured Article — First article gets a large card */}
-            <div onClick={() => { setSelectedArticle(trendingArticles[0]); setTradingView("article"); }} style={{
+            <div onClick={() => { setSelectedArticle(trendingArticles[0]); setTradingView("article"); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{
               borderRadius: t.radius.lg,
               background: t.cardGrad,
               border: `1px solid ${t.cardBorder}`,
@@ -650,7 +650,7 @@ function CoinZoomRedesign() {
 
             {/* Remaining articles — compact list cards */}
             {trendingArticles.slice(1).map(article => (
-              <div key={article.id} onClick={() => { setSelectedArticle(article); setTradingView("article"); }} style={{
+              <div key={article.id} onClick={() => { setSelectedArticle(article); setTradingView("article"); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{
                 display: "flex",
                 gap: 12,
                 padding: "14px 0",
@@ -816,7 +816,7 @@ function CoinZoomRedesign() {
             <div style={{ marginBottom: 12 }}>
               <div style={{ fontSize: 15, fontWeight: 700, color: t.text, marginBottom: 12 }}>More Stories</div>
               {relatedArticles.map(ra => (
-                <div key={ra.id} onClick={() => setSelectedArticle(ra)} style={{
+                <div key={ra.id} onClick={() => { setSelectedArticle(ra); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{
                   display: "flex",
                   gap: 12,
                   padding: "14px 0",
