@@ -4637,7 +4637,7 @@ function CoinZoomRedesign() {
         display: "flex", justifyContent: "space-around", zIndex: 100,
       }}>
         {tabs.map(({ id, label, icon: Ic, badge }) => (
-          <button key={id} onClick={() => setActiveTab(id)} style={{
+          <button key={id} onClick={() => { setActiveTab(id); window.scrollTo({ top: 0 }); }} style={{
             display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
             background: activeTab === id ? "rgba(56,178,73,0.08)" : "none",
             border: "none", cursor: "pointer", padding: "8px 14px",
