@@ -744,6 +744,48 @@ function CoinZoomRedesign() {
           </button>
         ))}
       </div>
+
+      {/* ── Recent Transactions ── */}
+      <div style={{ marginTop: 28 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <h3 style={{ fontSize: 16, fontWeight: 700, color: t.text, margin: 0, letterSpacing: "-0.01em" }}>Recent Transactions</h3>
+          <span onClick={() => showToast("All transactions")} style={{ fontSize: 13, fontWeight: 600, color: t.green, cursor: "pointer" }}>See All</span>
+        </div>
+        {[
+          { merchant: "Whole Foods Market", category: "Groceries", amount: -67.43, date: "Today", time: "2:34 PM", reward: 3.37, icon: "🛒" },
+          { merchant: "Netflix", category: "Entertainment", amount: -15.99, date: "Yesterday", time: "12:00 AM", reward: 0.80, icon: "🎬" },
+          { merchant: "Shell Gas Station", category: "Auto & Gas", amount: -52.18, date: "Feb 7", time: "8:12 AM", reward: 2.61, icon: "⛽" },
+          { merchant: "Amazon.com", category: "Shopping", amount: -124.95, date: "Feb 6", time: "3:45 PM", reward: 6.25, icon: "📦" },
+          { merchant: "Starbucks", category: "Food & Drink", amount: -6.75, date: "Feb 6", time: "7:22 AM", reward: 0.34, icon: "☕" },
+          { merchant: "Uber", category: "Transportation", amount: -23.40, date: "Feb 5", time: "9:15 PM", reward: 1.17, icon: "🚗" },
+          { merchant: "Apple", category: "Technology", amount: -0.99, date: "Feb 5", time: "11:30 AM", reward: 0.05, icon: "🍎" },
+          { merchant: "Chipotle", category: "Food & Drink", amount: -12.85, date: "Feb 4", time: "12:48 PM", reward: 0.64, icon: "🌯" },
+        ].map((tx, i) => (
+          <div key={i} onClick={() => showToast(`${tx.merchant}: $${Math.abs(tx.amount).toFixed(2)}`)} style={{
+            display: "flex", alignItems: "center", gap: 14, padding: "14px 0",
+            borderBottom: i < 7 ? `1px solid ${t.divider}` : "none",
+            cursor: "pointer", transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          }}>
+            {/* Icon */}
+            <div style={{
+              width: 42, height: 42, borderRadius: t.radius.md, background: t.surface,
+              display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0,
+            }}>{tx.icon}</div>
+
+            {/* Merchant & Category */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 14, fontWeight: 600, color: t.text, marginBottom: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{tx.merchant}</div>
+              <div style={{ fontSize: 12, color: t.textTer }}>{tx.category} · {tx.date}</div>
+            </div>
+
+            {/* Amount & Reward */}
+            <div style={{ textAlign: "right", flexShrink: 0 }}>
+              <div style={{ fontSize: 14, fontWeight: 600, color: t.text }}>{tx.amount < 0 ? "-" : "+"}${Math.abs(tx.amount).toFixed(2)}</div>
+              <div style={{ fontSize: 11, fontWeight: 600, color: t.green }}>+${tx.reward.toFixed(2)} ZOOM</div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 
