@@ -696,6 +696,89 @@ function CoinZoomRedesign() {
         </div>
       </div>
 
+      {/* ── Spending Breakdown ── */}
+      {(() => {
+        const spendingData = [
+          { category: "Shopping", amount: 124.95, color: "#8B5CF6" },
+          { category: "Groceries", amount: 67.43, color: "#F59E0B" },
+          { category: "Auto & Gas", amount: 52.18, color: "#3B82F6" },
+          { category: "Transportation", amount: 23.40, color: "#14B8A6" },
+          { category: "Food & Drink", amount: 19.60, color: "#EF4444" },
+          { category: "Entertainment", amount: 15.99, color: "#EC4899" },
+          { category: "Technology", amount: 0.99, color: "#6366F1" },
+        ];
+        const totalSpend = spendingData.reduce((s, d) => s + d.amount, 0);
+
+        // Build SVG donut segments
+        const donutSize = 140, strokeW = 18, radius = (donutSize - strokeW) / 2;
+        const circumference = 2 * Math.PI * radius;
+        let cumulativeOffset = 0;
+
+        return (
+          <div style={{
+            background: t.cardGrad, borderRadius: t.radius.lg, padding: "20px",
+            marginBottom: 20, border: `1px solid ${t.cardBorder}`,
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+              <span style={{ fontSize: 15, fontWeight: 700, color: t.text, letterSpacing: "-0.01em" }}>Spending Breakdown</span>
+              <span style={{ fontSize: 12, fontWeight: 500, color: t.textTer }}>This Month</span>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+              {/* Donut Chart */}
+              <div style={{ position: "relative", width: donutSize, height: donutSize, flexShrink: 0 }}>
+                <svg width={donutSize} height={donutSize} viewBox={`0 0 ${donutSize} ${donutSize}`} style={{ transform: "rotate(-90deg)" }}>
+                  {spendingData.map((d, i) => {
+                    const pct = d.amount / totalSpend;
+                    const dashLength = pct * circumference;
+                    const gap = circumference - dashLength;
+                    const offset = cumulativeOffset;
+                    cumulativeOffset += dashLength;
+                    return (
+                      <circle
+                        key={i}
+                        cx={donutSize / 2} cy={donutSize / 2} r={radius}
+                        fill="none" stroke={d.color} strokeWidth={strokeW}
+                        strokeDasharray={`${dashLength} ${gap}`}
+                        strokeDashoffset={-offset}
+                        strokeLinecap="butt"
+                      />
+                    );
+                  })}
+                </svg>
+                {/* Center text */}
+                <div style={{
+                  position: "absolute", top: 0, left: 0, width: "100%", height: "100%",
+                  display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                }}>
+                  <div style={{ fontSize: 11, color: t.textTer, fontWeight: 500, marginBottom: 2 }}>Total</div>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: t.text, letterSpacing: "-0.02em" }}>${totalSpend.toFixed(0)}</div>
+                </div>
+              </div>
+
+              {/* Category Legend */}
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
+                {spendingData.slice(0, 5).map((d, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div style={{ width: 8, height: 8, borderRadius: "50%", background: d.color, flexShrink: 0 }} />
+                      <span style={{ fontSize: 12, color: t.textSec, fontWeight: 500 }}>{d.category}</span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: t.text }}>${d.amount.toFixed(0)}</span>
+                      <span style={{ fontSize: 10, color: t.textTer, minWidth: 28, textAlign: "right" }}>{(d.amount / totalSpend * 100).toFixed(0)}%</span>
+                    </div>
+                  </div>
+                ))}
+                {spendingData.length > 5 && (
+                  <span onClick={() => showToast("All categories")} style={{ fontSize: 11, color: t.green, fontWeight: 600, cursor: "pointer", paddingTop: 2 }}>+{spendingData.length - 5} more</span>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
       {/* Virtual / Physical Toggle */}
       <div style={{
         background: t.surface, borderRadius: t.radius.md, padding: 4, display: "flex", marginBottom: 16,
