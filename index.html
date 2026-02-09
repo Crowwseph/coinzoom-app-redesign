@@ -790,24 +790,62 @@ function CoinZoomRedesign() {
                   {editingBudget === d.category && (
                     <div style={{
                       marginTop: 10, background: t.surface, borderRadius: t.radius.md,
-                      padding: "12px 14px", border: `1px solid ${t.cardBorder}`,
+                      padding: "14px 16px", border: `1px solid ${t.cardBorder}`,
                       animation: "fadeSlideIn 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
                     }}>
-                      <div style={{ fontSize: 12, fontWeight: 600, color: t.textSec, marginBottom: 8 }}>Monthly Budget</div>
-                      <div style={{ display: "flex", gap: 8 }}>
-                        {[25, 50, 75, 100, 150, 200, 300].map(amt => (
+                      <div style={{ fontSize: 12, fontWeight: 600, color: t.textSec, marginBottom: 10 }}>Monthly Budget</div>
+
+                      {/* Custom amount input */}
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                        <div style={{
+                          flex: 1, display: "flex", alignItems: "center", background: t.card,
+                          border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.sm, padding: "0 12px",
+                          transition: "border-color 0.2s",
+                        }}>
+                          <span style={{ fontSize: 16, fontWeight: 600, color: t.textTer, marginRight: 4 }}>$</span>
+                          <input
+                            type="number"
+                            value={budget || ""}
+                            onChange={(e) => {
+                              const val = parseInt(e.target.value) || 0;
+                              setBudgets(prev => ({ ...prev, [d.category]: val }));
+                            }}
+                            placeholder="0"
+                            style={{
+                              background: "none", border: "none", outline: "none", color: t.text,
+                              fontSize: 16, fontWeight: 600, padding: "10px 0", width: "100%",
+                              fontFamily: "inherit",
+                            }}
+                          />
+                        </div>
+                        <button onClick={() => setEditingBudget(null)} style={{
+                          padding: "10px 16px", borderRadius: t.radius.sm, border: "none",
+                          background: d.color, color: "#fff", fontSize: 13, fontWeight: 600,
+                          cursor: "pointer", whiteSpace: "nowrap",
+                          transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+                        }}>Set</button>
+                      </div>
+
+                      {/* Quick presets */}
+                      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                        {[50, 100, 150, 200, 300, 500].map(amt => (
                           <button key={amt} onClick={() => setBudgets(prev => ({ ...prev, [d.category]: amt }))} style={{
-                            padding: "6px 10px", borderRadius: t.radius.sm, border: "none", fontSize: 12, fontWeight: 600,
-                            background: budget === amt ? d.color : t.card,
+                            padding: "6px 12px", borderRadius: t.radius.full, border: `1px solid ${budget === amt ? d.color : t.cardBorder}`,
+                            fontSize: 12, fontWeight: 600,
+                            background: budget === amt ? d.color : "transparent",
                             color: budget === amt ? "#fff" : t.textSec,
                             cursor: "pointer", transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
                           }}>${amt}</button>
                         ))}
                       </div>
-                      <button onClick={() => { setBudgets(prev => ({ ...prev, [d.category]: 0 })); setEditingBudget(null); }} style={{
-                        marginTop: 8, padding: "6px 0", background: "none", border: "none",
-                        fontSize: 11, color: t.textTer, cursor: "pointer", fontWeight: 500,
-                      }}>Remove budget</button>
+
+                      {/* Remove budget */}
+                      {budget > 0 && (
+                        <button onClick={() => { setBudgets(prev => ({ ...prev, [d.category]: 0 })); setEditingBudget(null); }} style={{
+                          marginTop: 10, padding: "6px 0", background: "none", border: "none",
+                          fontSize: 11, color: "#ef4444", cursor: "pointer", fontWeight: 500,
+                        }}>Remove budget</button>
+                      )}
                     </div>
                   )}
                 </div>
