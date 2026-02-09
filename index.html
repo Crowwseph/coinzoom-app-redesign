@@ -1909,11 +1909,9 @@ function CoinZoomRedesign() {
   // ── ZoomMe Screen ────────────────────────────────────
   // ── QR Code SVG Component ─────────────────────────────
   const QRCode = ({ size = 200 }) => {
-    // Generate a deterministic QR-like pattern (visual representation)
     const modules = 25;
     const cellSize = size / modules;
     const cells = [];
-    // Seed-based pattern for consistent look
     const pattern = [
       "1111111000101000011111111",
       "1000001001010100010000011",
@@ -1964,123 +1962,42 @@ function CoinZoomRedesign() {
     const [showAmountInput, setShowAmountInput] = useState(false);
     return (
     <div style={{ padding: "0 20px 120px", minHeight: "100%" }}>
-      {/* Header with back button */}
       <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 0 8px" }}>
-        <button onClick={onBack} style={{
-          background: "none", border: "none", cursor: "pointer", padding: 4,
-          display: "flex", alignItems: "center", justifyContent: "center",
-        }}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={t.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>
-          </svg>
+        <button onClick={onBack} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={t.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
         </button>
         <h1 style={{ fontSize: 22, fontWeight: 700, color: t.text, margin: 0 }}>My QR Code</h1>
       </div>
-
-      {/* QR Card */}
-      <div style={{
-        background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.xl,
-        padding: "36px 28px", marginTop: 32, display: "flex", flexDirection: "column",
-        alignItems: "center", gap: 28,
-        boxShadow: "0 8px 32px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.2)",
-      }}>
-        {/* User info */}
+      <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.xl, padding: "36px 28px", marginTop: 32, display: "flex", flexDirection: "column", alignItems: "center", gap: 28, boxShadow: "0 8px 32px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.2)" }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-          <div style={{
-            width: 60, height: 60, borderRadius: "50%", overflow: "hidden",
-            border: `2px solid ${t.green}`, marginBottom: 4,
-            boxShadow: "0 4px 16px rgba(58,143,60,0.3)",
-          }}><img src={TODD_AVATAR} alt="Todd" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
+          <div style={{ width: 60, height: 60, borderRadius: "50%", overflow: "hidden", border: `2px solid ${t.green}`, marginBottom: 4, boxShadow: "0 4px 16px rgba(58,143,60,0.3)" }}><img src={TODD_AVATAR} alt="Todd" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
           <div style={{ fontSize: 18, fontWeight: 700, color: t.text }}>Todd</div>
         </div>
-
-        {/* QR Code with green border glow */}
-        <div style={{
-          background: "rgba(58,143,60,0.08)", borderRadius: t.radius.lg, padding: 20,
-          border: `1px solid rgba(58,143,60,0.2)`,
-          boxShadow: "0 0 40px rgba(58,143,60,0.08)",
-        }}>
+        <div style={{ background: "rgba(58,143,60,0.08)", borderRadius: t.radius.lg, padding: 20, border: `1px solid rgba(58,143,60,0.2)`, boxShadow: "0 0 40px rgba(58,143,60,0.08)" }}>
           <QRCode size={200} />
         </div>
-
-        {/* Instructions */}
-        <div style={{ fontSize: 14, color: t.textSec, textAlign: "center", lineHeight: 1.5, maxWidth: 260 }}>
-          Show this code to receive payments instantly via ZoomMe
-        </div>
+        <div style={{ fontSize: 14, color: t.textSec, textAlign: "center", lineHeight: 1.5, maxWidth: 260 }}>Show this code to receive payments instantly via ZoomMe</div>
       </div>
-
-      {/* Action buttons */}
       <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
-        <button onClick={() => showToast("Link shared!")} style={{
-          flex: 1, padding: "14px", borderRadius: t.radius.md,
-          background: t.cardGrad, border: `1px solid ${t.cardBorder}`,
-          color: t.text, fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer",
-          display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-          transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
-        }}
-          onMouseDown={(e) => { e.currentTarget.style.background = t.surfaceHover; }}
-          onMouseUp={(e) => { e.currentTarget.style.background = t.card; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = t.card; }}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
-          </svg>
+        <button onClick={() => showToast("Link shared!")} style={{ flex: 1, padding: "14px", borderRadius: t.radius.md, background: t.cardGrad, border: `1px solid ${t.cardBorder}`, color: t.text, fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)" }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
           Share
         </button>
-        <button onClick={() => showToast("Link copied!")} style={{
-          flex: 1, padding: "14px", borderRadius: t.radius.md,
-          background: t.cardGrad, border: `1px solid ${t.cardBorder}`,
-          color: t.text, fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer",
-          display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-          transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
-        }}
-          onMouseDown={(e) => { e.currentTarget.style.background = t.surfaceHover; }}
-          onMouseUp={(e) => { e.currentTarget.style.background = t.card; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = t.card; }}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-          </svg>
+        <button onClick={() => showToast("Link copied!")} style={{ flex: 1, padding: "14px", borderRadius: t.radius.md, background: t.cardGrad, border: `1px solid ${t.cardBorder}`, color: t.text, fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)" }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
           Copy Link
         </button>
       </div>
-
-      {/* Set Amount option */}
-      <button onClick={() => setShowAmountInput(!showAmountInput)} style={{
-        width: "100%", padding: "16px", borderRadius: t.radius.lg, border: "none",
-        background: t.green, color: "#fff", fontSize: 17, fontWeight: 600,
-        cursor: "pointer", boxShadow: "0 6px 24px rgba(58,143,60,0.3)",
-        transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)", letterSpacing: 0.3, marginTop: 12,
-      }}
-        onMouseDown={(e) => { e.currentTarget.style.transform = "scale(0.98)"; }}
-        onMouseUp={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
-      >Set Request Amount</button>
-
+      <button onClick={() => setShowAmountInput(!showAmountInput)} style={{ width: "100%", padding: "16px", borderRadius: t.radius.lg, border: "none", background: t.green, color: "#fff", fontSize: 17, fontWeight: 600, cursor: "pointer", boxShadow: "0 6px 24px rgba(58,143,60,0.3)", transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)", letterSpacing: 0.3, marginTop: 12 }}>Set Request Amount</button>
       {showAmountInput && (
-        <div style={{
-          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
-          background: "rgba(0,0,0,0.75)", backdropFilter: t.blur, WebkitBackdropFilter: t.blur, display: "flex", alignItems: "center", justifyContent: "center",
-          zIndex: 1000,
-        }}>
-          <div style={{
-            background: t.cardGrad, borderRadius: t.radius.xl, padding: "28px 24px",
-            width: "90%", maxWidth: 340, border: `1px solid ${t.cardBorder}`,
-          }}>
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.75)", backdropFilter: t.blur, WebkitBackdropFilter: t.blur, display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000 }}>
+          <div style={{ background: t.cardGrad, borderRadius: t.radius.xl, padding: "28px 24px", width: "90%", maxWidth: 340, border: `1px solid ${t.cardBorder}` }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
               <h2 style={{ fontSize: 18, fontWeight: 700, color: t.text, margin: 0 }}>Request Amount</h2>
-              <button onClick={() => setShowAmountInput(false)} style={{
-                background: "none", border: "none", color: t.textSec, cursor: "pointer", fontSize: 24,
-              }}>×</button>
+              <button onClick={() => setShowAmountInput(false)} style={{ background: "none", border: "none", color: t.textSec, cursor: "pointer", fontSize: 24 }}>×</button>
             </div>
-            <input type="text" placeholder="$0.00" style={{
-              width: "100%", padding: "12px 14px", background: t.surface, border: `1px solid ${t.cardBorder}`,
-              borderRadius: t.radius.sm, color: t.text, fontSize: 15, outline: "none", marginBottom: 20,
-            }} />
-            <button onClick={() => { setShowAmountInput(false); showToast("Amount set!"); }} style={{
-              width: "100%", padding: "12px 16px", background: t.green, border: "none",
-              color: "#fff", fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer", borderRadius: 12,
-            }}>Confirm</button>
+            <input type="text" placeholder="$0.00" style={{ width: "100%", padding: "12px 14px", background: t.surface, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.sm, color: t.text, fontSize: 15, outline: "none", marginBottom: 20 }} />
+            <button onClick={() => { setShowAmountInput(false); showToast("Amount set!"); }} style={{ width: "100%", padding: "12px 16px", background: t.green, border: "none", color: "#fff", fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer", borderRadius: 12 }}>Confirm</button>
           </div>
         </div>
       )}
@@ -2088,86 +2005,58 @@ function CoinZoomRedesign() {
     );
   };
 
-  // ── Contact Transaction Detail Screen ─────────────────
+  // ── Contact Transaction Detail Screen (UPGRADED) ─────────────────
   const ContactDetailScreen = ({ contact, onBack, onSend, onRequest }) => {
     const txHistory = [
-      { desc: "Payment received", amount: "+$150.00", isReceived: true, date: "Feb 4, 2026", time: "2:34 PM", status: "Completed" },
-      { desc: "Lunch split", amount: "-$24.50", isReceived: false, date: "Jan 28, 2026", time: "12:15 PM", status: "Completed" },
-      { desc: "Payment received", amount: "+$75.00", isReceived: true, date: "Jan 15, 2026", time: "9:42 AM", status: "Completed" },
+      { desc: "Payment received", amount: "+$150.00", isReceived: true, date: "Feb 4, 2026", time: "2:34 PM", status: "completed", note: "Rent split" },
+      { desc: "Lunch split", amount: "-$24.50", isReceived: false, date: "Jan 28, 2026", time: "12:15 PM", status: "completed", note: "Sushi lunch" },
+      { desc: "Payment received", amount: "+$75.00", isReceived: true, date: "Jan 15, 2026", time: "9:42 AM", status: "completed", note: "Concert tickets" },
+      { desc: "Payment sent", amount: "-$40.00", isReceived: false, date: "Jan 8, 2026", time: "6:18 PM", status: "completed", note: "Groceries" },
+      { desc: "Payment received", amount: "+$200.00", isReceived: true, date: "Dec 20, 2025", time: "11:05 AM", status: "completed", note: "Holiday gift" },
     ];
+    const totalSent = 64.50;
+    const totalReceived = 425.00;
+    const txCount = txHistory.length;
+    const statusIcon = { completed: { color: t.green, label: "Completed" }, pending: { color: t.gold, label: "Pending" }, declined: { color: t.red, label: "Declined" } };
 
     return (
       <div style={{ padding: "0 20px 120px" }}>
-        {/* Header */}
         <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 0 8px" }}>
-          <button onClick={onBack} style={{
-            background: "none", border: "none", cursor: "pointer", padding: 4,
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={t.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>
-            </svg>
+          <button onClick={onBack} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={t.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
           </button>
           <h1 style={{ fontSize: 22, fontWeight: 700, color: t.text, margin: 0 }}>Details</h1>
         </div>
 
         {/* Contact Card */}
-        <div style={{
-          background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.lg,
-          padding: "28px 20px", marginTop: 20, display: "flex", flexDirection: "column",
-          alignItems: "center", gap: 12,
-        }}>
-          <div style={{
-            width: 72, height: 72, borderRadius: "50%", overflow: "hidden",
-            border: `2px solid ${t.green}`, boxShadow: "0 4px 16px rgba(58,143,60,0.2)",
-          }}>
+        <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.lg, padding: "28px 20px", marginTop: 20, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+          <div style={{ width: 72, height: 72, borderRadius: "50%", overflow: "hidden", border: `2px solid ${t.green}`, boxShadow: "0 4px 16px rgba(58,143,60,0.2)" }}>
             <img src={AVATAR_IMAGES[contact.avatarKey]} alt={contact.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
           <div style={{ fontSize: 20, fontWeight: 700, color: t.text }}>{contact.name}</div>
           <div style={{ fontSize: 13, color: t.textTer }}>ZoomMe User</div>
         </div>
 
-        {/* Latest Transaction Highlight */}
-        <div style={{
-          background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.lg,
-          padding: "24px 20px", marginTop: 16, display: "flex", flexDirection: "column",
-          alignItems: "center", gap: 8,
-        }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: t.textSec, textTransform: "uppercase", letterSpacing: 1 }}>Amount Received</div>
-          <div style={{ fontSize: 36, fontWeight: 800, color: t.green }}>+$150.00</div>
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 6,
-            background: "${t.greenGlow}", borderRadius: t.radius.lg, padding: "6px 14px", marginTop: 4,
-          }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            <span style={{ fontSize: 13, fontWeight: 600, color: t.green }}>Completed</span>
+        {/* Summary Stats Cards */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginTop: 16 }}>
+          <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "14px 12px", textAlign: "center" }}>
+            <div style={{ fontSize: 11, color: t.textTer, marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600 }}>Sent</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: t.text }}>${totalSent.toFixed(2)}</div>
           </div>
-          <div style={{ fontSize: 13, color: t.textTer, marginTop: 4 }}>Feb 4, 2026 at 2:34 PM</div>
+          <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "14px 12px", textAlign: "center" }}>
+            <div style={{ fontSize: 11, color: t.textTer, marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600 }}>Received</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: t.green }}>${totalReceived.toFixed(2)}</div>
+          </div>
+          <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "14px 12px", textAlign: "center" }}>
+            <div style={{ fontSize: 11, color: t.textTer, marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600 }}>Total Txns</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: t.text }}>{txCount}</div>
+          </div>
         </div>
 
         {/* Action Buttons */}
         <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
-          <button onClick={() => onSend && onSend(contact)} style={{
-            flex: 1, padding: "14px", borderRadius: t.radius.md,
-            background: t.green, border: "none", color: "#fff",
-            fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer",
-            boxShadow: "0 4px 16px rgba(58,143,60,0.3)", transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
-          }}
-            onMouseDown={(e) => { e.currentTarget.style.transform = "scale(0.97)"; }}
-            onMouseUp={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
-          >Send</button>
-          <button onClick={() => onRequest && onRequest(contact)} style={{
-            flex: 1, padding: "14px", borderRadius: t.radius.md,
-            background: t.cardGrad, border: `1px solid ${t.cardBorder}`, color: t.text,
-            fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer", transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
-          }}
-            onMouseDown={(e) => { e.currentTarget.style.background = t.surfaceHover; }}
-            onMouseUp={(e) => { e.currentTarget.style.background = t.card; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = t.card; }}
-          >Request</button>
+          <button onClick={() => onSend && onSend(contact)} style={{ flex: 1, padding: "14px", borderRadius: t.radius.md, background: t.green, border: "none", color: "#fff", fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer", boxShadow: "0 4px 16px rgba(58,143,60,0.3)", transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)" }}>Send</button>
+          <button onClick={() => onRequest && onRequest(contact)} style={{ flex: 1, padding: "14px", borderRadius: t.radius.md, background: t.cardGrad, border: `1px solid ${t.cardBorder}`, color: t.text, fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer", transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)" }}>Request</button>
         </div>
 
         {/* Transaction History */}
@@ -2175,12 +2064,16 @@ function CoinZoomRedesign() {
           <div style={{ fontSize: 14, fontWeight: 600, color: t.textSec, marginBottom: 14 }}>Transaction History</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
             {txHistory.map((tx, i) => (
-              <div key={i} style={{
-                display: "flex", alignItems: "center", justifyContent: "space-between",
-                padding: "14px 0", borderBottom: i < txHistory.length - 1 ? `1px solid ${t.divider}` : "none",
-              }}>
-                <div>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: t.text, marginBottom: 2 }}>{tx.desc}</div>
+              <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0", borderBottom: i < txHistory.length - 1 ? `1px solid ${t.divider}` : "none" }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: t.text }}>{tx.desc}</div>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: 4, background: `${statusIcon[tx.status].color}15`, padding: "2px 8px", borderRadius: t.radius.full }}>
+                      <div style={{ width: 6, height: 6, borderRadius: "50%", background: statusIcon[tx.status].color }} />
+                      <span style={{ fontSize: 10, fontWeight: 600, color: statusIcon[tx.status].color }}>{statusIcon[tx.status].label}</span>
+                    </div>
+                  </div>
+                  {tx.note && <div style={{ fontSize: 12, color: t.textTer, marginBottom: 2 }}>{tx.note}</div>}
                   <div style={{ fontSize: 12, color: t.textTer }}>{tx.date} at {tx.time}</div>
                 </div>
                 <div style={{ fontSize: 15, fontWeight: 700, color: tx.isReceived ? t.green : t.text }}>{tx.amount}</div>
@@ -2194,7 +2087,7 @@ function CoinZoomRedesign() {
 
   const ZoomMeScreen = () => {
     const [searchVal, setSearchVal] = useState("");
-    const [selectedTab, setSelectedTab] = useState("send");
+    const [selectedTab, setSelectedTab] = useState("activity");
     const [showQR, setShowQR] = useState(false);
     const [selectedContact, setSelectedContact] = useState(null);
     const [showSend, setShowSend] = useState(false);
@@ -2209,9 +2102,21 @@ function CoinZoomRedesign() {
     const [requestComplete, setRequestComplete] = useState(false);
     const [sendSearchVal, setSendSearchVal] = useState("");
     const [requestSearchVal, setRequestSearchVal] = useState("");
+    const [sendNote, setSendNote] = useState("");
+    const [requestNote, setRequestNote] = useState("");
+    const [favorites, setFavorites] = useState(["todd", "sarah"]);
+    const [showSplit, setShowSplit] = useState(false);
+    const [splitStep, setSplitStep] = useState(1);
+    const [splitAmount, setSplitAmount] = useState("");
+    const [splitSelected, setSplitSelected] = useState([]);
+    const [splitNote, setSplitNote] = useState("");
+    const [splitComplete, setSplitComplete] = useState(false);
+    const [showNewPay, setShowNewPay] = useState(false);
+    const [newPayInput, setNewPayInput] = useState("");
+    const [newPayFound, setNewPayFound] = useState(null);
 
     if (showQR) return <ScanQRScreen onBack={() => setShowQR(false)} />;
-    if (selectedContact) return <ContactDetailScreen contact={selectedContact} onBack={() => setSelectedContact(null)} onSend={(contact) => { setSelectedContact(null); setShowSend(true); setSendStep(1); setSendAmount(""); setSendTo(contact); }} onRequest={(contact) => { setSelectedContact(null); setShowRequest(true); setRequestStep(1); setRequestAmount(""); setRequestFrom(contact); }} />;
+    if (selectedContact) return <ContactDetailScreen contact={selectedContact} onBack={() => setSelectedContact(null)} onSend={(contact) => { setSelectedContact(null); setShowSend(true); setSendStep(1); setSendAmount(""); setSendNote(""); setSendTo(contact); }} onRequest={(contact) => { setSelectedContact(null); setShowRequest(true); setRequestStep(1); setRequestAmount(""); setRequestNote(""); setRequestFrom(contact); }} />;
 
     const recentContacts = [
       { name: "Todd", avatarKey: "todd" },
@@ -2221,55 +2126,112 @@ function CoinZoomRedesign() {
       { name: "Bob Chen", avatarKey: "bob" },
     ];
 
-    const recentActivity = [
-      { name: "Todd", desc: "Dinner split", amount: "+$25.00", isReceived: true, timeAgo: "2h ago", avatarKey: "todd" },
-      { name: "Sarah Kim", desc: "Movie tickets", amount: "-$50.00", isReceived: false, timeAgo: "1d ago", avatarKey: "sarah" },
-      { name: "Alice Rodriguez", desc: "Coffee", amount: "+$8.50", isReceived: true, timeAgo: "3d ago", avatarKey: "alice" },
-      { name: "David Lee", desc: "Gas money", amount: "-$35.00", isReceived: false, timeAgo: "1w ago", avatarKey: "david" },
+    const quickEmojis = ["\u{1F355}", "\u{2615}", "\u{1F37B}", "\u{26FD}", "\u{1F3AC}", "\u{1F3B5}", "\u{1F6D2}", "\u{1F3E0}"];
+
+    const toggleFav = (key) => setFavorites(prev => prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key]);
+
+    const pendingRequests = [
+      { id: 1, name: "Bob Chen", avatarKey: "bob", amount: "$45.00", note: "Concert tickets", timeAgo: "3h ago", type: "incoming" },
+      { id: 2, name: "David Lee", avatarKey: "david", amount: "$22.50", note: "Uber split", timeAgo: "1d ago", type: "incoming" },
+      { id: 3, name: "Alice Rodriguez", avatarKey: "alice", amount: "$30.00", note: "Birthday dinner", timeAgo: "2d ago", type: "outgoing" },
     ];
+
+    const allActivity = [
+      { name: "Todd", desc: "Dinner split", note: "\u{1F355} Pizza night", amount: "+$25.00", isReceived: true, timeAgo: "2h ago", avatarKey: "todd", status: "completed", date: "today" },
+      { name: "Bob Chen", desc: "Payment request", note: "Concert tix", amount: "$45.00", isReceived: false, timeAgo: "3h ago", avatarKey: "bob", status: "pending", date: "today" },
+      { name: "Sarah Kim", desc: "Movie tickets", note: "\u{1F3AC} Friday movie", amount: "-$50.00", isReceived: false, timeAgo: "1d ago", avatarKey: "sarah", status: "completed", date: "yesterday" },
+      { name: "David Lee", desc: "Uber split", note: "\u{1F697} Ride share", amount: "-$22.50", isReceived: false, timeAgo: "1d ago", avatarKey: "david", status: "pending", date: "yesterday" },
+      { name: "Alice Rodriguez", desc: "Coffee", note: "\u{2615} Morning latte", amount: "+$8.50", isReceived: true, timeAgo: "3d ago", avatarKey: "alice", status: "completed", date: "this_week" },
+      { name: "Todd", desc: "Gas money", note: "\u{26FD} Road trip", amount: "+$35.00", isReceived: true, timeAgo: "4d ago", avatarKey: "todd", status: "completed", date: "this_week" },
+      { name: "Sarah Kim", desc: "Groceries", note: "\u{1F6D2} Costco run", amount: "-$62.30", isReceived: false, timeAgo: "5d ago", avatarKey: "sarah", status: "completed", date: "this_week" },
+      { name: "Bob Chen", desc: "Game tickets", note: "\u{1F3C8} NFL Sunday", amount: "-$85.00", isReceived: false, timeAgo: "1w ago", avatarKey: "bob", status: "completed", date: "earlier" },
+      { name: "David Lee", desc: "Birthday gift", note: "\u{1F381} Happy bday!", amount: "+$50.00", isReceived: true, timeAgo: "2w ago", avatarKey: "david", status: "completed", date: "earlier" },
+      { name: "Alice Rodriguez", desc: "Dinner", note: "\u{1F37D}\u{FE0F} Thai food", amount: "-$38.75", isReceived: false, timeAgo: "2w ago", avatarKey: "alice", status: "completed", date: "earlier" },
+    ];
+
+    const monthSent = 258.55;
+    const monthReceived = 118.50;
+
+    const statusBadge = (status) => {
+      const s = { completed: { bg: `${t.green}15`, color: t.green, dot: t.green }, pending: { bg: `${t.gold}15`, color: t.gold, dot: t.gold }, declined: { bg: `${t.red}15`, color: t.red, dot: t.red } };
+      const st = s[status] || s.completed;
+      return (
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 4, background: st.bg, padding: "2px 8px", borderRadius: t.radius.full }}>
+          <div style={{ width: 5, height: 5, borderRadius: "50%", background: st.dot }} />
+          <span style={{ fontSize: 10, fontWeight: 600, color: st.color, textTransform: "capitalize" }}>{status}</span>
+        </div>
+      );
+    };
+
+    const favContacts = recentContacts.filter(c => favorites.includes(c.avatarKey));
+    const nonFavContacts = recentContacts.filter(c => !favorites.includes(c.avatarKey));
+    const sortedContacts = [...favContacts, ...nonFavContacts];
+
+    const dateGroups = [
+      { key: "today", label: "Today" },
+      { key: "yesterday", label: "Yesterday" },
+      { key: "this_week", label: "This Week" },
+      { key: "earlier", label: "Earlier" },
+    ];
+
+    const filteredActivity = allActivity.filter(tx => tx.name.toLowerCase().includes(searchVal.toLowerCase()));
+
+    // Note/emoji picker component
+    const NoteInput = ({ note, setNote, emojis }) => (
+      <div style={{ marginTop: 12, marginBottom: 16 }}>
+        <div style={{ fontSize: 12, fontWeight: 600, color: t.textSec, marginBottom: 8 }}>Add a note</div>
+        <input type="text" placeholder="What's it for?" value={note} onChange={(e) => setNote(e.target.value)} style={{ width: "100%", padding: "10px 14px", background: t.surface, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.sm, color: t.text, fontSize: 14, outline: "none", fontFamily: "inherit", boxSizing: "border-box", marginBottom: 8 }} />
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {emojis.map((e, i) => (
+            <button key={i} onClick={() => setNote(prev => prev + " " + e)} style={{ width: 36, height: 36, borderRadius: t.radius.sm, background: t.surface, border: `1px solid ${t.cardBorder}`, cursor: "pointer", fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.15s" }}>{e}</button>
+          ))}
+        </div>
+      </div>
+    );
 
     return (
       <div style={{ padding: "0 20px 120px" }}>
         <h1 style={{ fontSize: 28, fontWeight: 700, color: t.text, margin: "16px 0 18px" }}>ZoomMe</h1>
 
         {/* Search Bar */}
-        <div style={{
-          display: "flex", alignItems: "center", gap: 10,
-          background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md,
-          padding: "10px 14px", marginBottom: 24
-        }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "10px 14px", marginBottom: 24 }}>
           <Icons.Search />
-          <input
-            type="text"
-            placeholder="Search contacts"
-            value={searchVal}
-            onChange={(e) => setSearchVal(e.target.value)}
-            style={{
-              flex: 1, background: "none", border: "none", color: t.text,
-              fontSize: 15, outline: "none", fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display'",
-              placeholderColor: t.textTer,
-            }}
-          />
-          <Icons.Plus />
+          <input type="text" placeholder="Search contacts or enter phone/username" value={searchVal} onChange={(e) => setSearchVal(e.target.value)} style={{ flex: 1, background: "none", border: "none", color: t.text, fontSize: 15, outline: "none", fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display'" }} />
+          <div onClick={() => setShowNewPay(true)} style={{ cursor: "pointer" }}><Icons.Plus /></div>
+        </div>
+
+        {/* Monthly Summary Card */}
+        <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.lg, padding: "16px 18px", marginBottom: 24, display: "flex", alignItems: "center", gap: 16 }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 11, color: t.textTer, textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, marginBottom: 6 }}>This Month</div>
+            <div style={{ display: "flex", gap: 16 }}>
+              <div>
+                <div style={{ fontSize: 11, color: t.textTer, marginBottom: 2 }}>Sent</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: t.text }}>${monthSent.toFixed(2)}</div>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, color: t.textTer, marginBottom: 2 }}>Received</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: t.green }}>${monthReceived.toFixed(2)}</div>
+              </div>
+            </div>
+          </div>
+          <div style={{ width: 48, height: 48, borderRadius: t.radius.md, background: monthReceived > monthSent ? `${t.green}15` : `${t.red}15`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={monthReceived > monthSent ? t.green : t.red} strokeWidth="2" strokeLinecap="round">
+              {monthReceived > monthSent ? <><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></> : <><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></>}
+            </svg>
+          </div>
         </div>
 
         {/* Quick Actions */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 28 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, marginBottom: 28 }}>
           {[
-            { label: "Send", icon: Icons.Send, onClick: () => { setShowSend(true); setSendStep(1); setSendAmount(""); setSendTo(null); } },
-            { label: "Request", icon: Icons.Request, onClick: () => { setShowRequest(true); setRequestStep(1); setRequestAmount(""); setRequestFrom(null); } },
+            { label: "Send", icon: Icons.Send, onClick: () => { setShowSend(true); setSendStep(1); setSendAmount(""); setSendNote(""); setSendTo(null); } },
+            { label: "Request", icon: Icons.Request, onClick: () => { setShowRequest(true); setRequestStep(1); setRequestAmount(""); setRequestNote(""); setRequestFrom(null); } },
+            { label: "Split", icon: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2" strokeLinecap="round"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 00-1.172-2.872L3 3"/><path d="m15 9 6-6"/></svg>, onClick: () => { setShowSplit(true); setSplitStep(1); setSplitAmount(""); setSplitSelected([]); setSplitNote(""); setSplitComplete(false); } },
             { label: "Scan QR", icon: Icons.QrCode, onClick: () => setShowQR(true) },
           ].map((action, i) => (
-            <button key={i} onClick={action.onClick} style={{
-              background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md,
-              padding: "16px 12px", display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
-              cursor: "pointer", transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)", color: t.text, fontSize: 13, fontWeight: 500,
-            }}
-              onMouseDown={(e) => { e.currentTarget.style.background = t.surfaceHover; }}
-              onMouseUp={(e) => { e.currentTarget.style.background = t.card; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = t.card; }}
-            >
-              <div style={{ width: 40, height: 40, borderRadius: t.radius.md, background: "${t.greenGlow}", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <button key={i} onClick={action.onClick} style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "14px 8px", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, cursor: "pointer", transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)", color: t.text, fontSize: 11, fontWeight: 500 }}>
+              <div style={{ width: 36, height: 36, borderRadius: t.radius.md, background: `${t.green}15`, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <action.icon />
               </div>
               {action.label}
@@ -2277,218 +2239,193 @@ function CoinZoomRedesign() {
           ))}
         </div>
 
-        {/* Recent Contacts */}
+        {/* Favorites & Recent Contacts */}
         <div style={{ marginBottom: 28 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: t.textSec, marginBottom: 12 }}>Recent</div>
-          <div style={{ display: "flex", gap: 16, overflowX: "auto", paddingBottom: 8, scrollBehavior: "smooth" }}>
-            {recentContacts.filter(c => c.name.toLowerCase().includes(searchVal.toLowerCase())).map((contact, i) => (
-              <div key={i} onClick={() => setSelectedContact(contact)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, cursor: "pointer", flex: "0 0 auto" }}>
-                <div style={{
-                  width: 56, height: 56, borderRadius: "50%", overflow: "hidden",
-                  transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
-                  border: `2px solid ${t.cardBorder}`,
-                }}
-                  onMouseDown={(e) => { e.currentTarget.style.transform = "scale(0.95)"; }}
-                  onMouseUp={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
-                ><img src={AVATAR_IMAGES[contact.avatarKey]} alt={contact.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
-                <div style={{ fontSize: 12, color: t.text, fontWeight: 500, maxWidth: 56, textAlign: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{contact.name.split(" ")[0]}</div>
-              </div>
-            ))}
+          <div style={{ fontSize: 13, fontWeight: 600, color: t.textSec, marginBottom: 12 }}>Favorites & Recent</div>
+          <div style={{ display: "flex", gap: 14, overflowX: "auto", paddingBottom: 8, scrollBehavior: "smooth" }}>
+            {sortedContacts.filter(c => c.name.toLowerCase().includes(searchVal.toLowerCase())).map((contact, i) => {
+              const isFav = favorites.includes(contact.avatarKey);
+              return (
+                <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, cursor: "pointer", flex: "0 0 auto", position: "relative" }}>
+                  <div onClick={() => setSelectedContact(contact)} style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)", boxShadow: isFav ? `0 0 16px ${t.greenGlow}` : "0 4px 12px rgba(0,0,0,0.25)", border: isFav ? `2px solid ${t.green}` : `2px solid ${t.cardBorder}` }}>
+                    <img src={AVATAR_IMAGES[contact.avatarKey]} alt={contact.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  </div>
+                  {isFav && <div style={{ position: "absolute", top: -2, right: -2, width: 18, height: 18, borderRadius: "50%", background: t.bg, display: "flex", alignItems: "center", justifyContent: "center", border: `1.5px solid ${t.green}` }}>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill={t.green} stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  </div>}
+                  <div style={{ fontSize: 11, color: t.text, fontWeight: 500, maxWidth: 56, textAlign: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{contact.name.split(" ")[0]}</div>
+                  <button onClick={(e) => { e.stopPropagation(); toggleFav(contact.avatarKey); }} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 10, color: isFav ? t.green : t.textTer, fontWeight: 600 }}>{isFav ? "Fav" : "+"}</button>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Transaction Tabs */}
-        <div style={{ display: "flex", gap: 16, borderBottom: `1px solid ${t.divider}`, marginBottom: 16 }}>
-          {["send", "request"].map((tab) => (
-            <button key={tab} onClick={() => setSelectedTab(tab)} style={{
-              padding: "12px 0", borderBottom: selectedTab === tab ? `2px solid ${t.green}` : "none",
-              color: selectedTab === tab ? t.green : t.textSec, fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em",
-              background: "none", border: "none", cursor: "pointer", transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
-              textTransform: "capitalize",
-            }}>
-              {tab === "send" ? "Sent" : "Requests"}
+        {/* Tab Navigation */}
+        <div style={{ display: "flex", gap: 0, borderBottom: `1px solid ${t.divider}`, marginBottom: 16 }}>
+          {[
+            { key: "activity", label: "Activity" },
+            { key: "requests", label: `Requests (${pendingRequests.filter(r => r.type === "incoming").length})` },
+          ].map((tab) => (
+            <button key={tab.key} onClick={() => setSelectedTab(tab.key)} style={{ flex: 1, padding: "12px 0", borderBottom: selectedTab === tab.key ? `2px solid ${t.green}` : "2px solid transparent", color: selectedTab === tab.key ? t.green : t.textSec, fontSize: 14, fontWeight: 700, letterSpacing: "-0.01em", background: "none", border: "none", cursor: "pointer", transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)", borderBottomStyle: "solid" }}>
+              {tab.label}
             </button>
           ))}
         </div>
 
-        {/* Recent Activity Header */}
-        <h2 style={{ fontSize: 16, fontWeight: 700, color: t.text, marginBottom: 12 }}>Recent Activity</h2>
+        {/* ── Activity Tab ── */}
+        {selectedTab === "activity" && (
+          <div>
+            {dateGroups.map(group => {
+              const txs = filteredActivity.filter(tx => tx.date === group.key);
+              if (txs.length === 0) return null;
+              return (
+                <div key={group.key} style={{ marginBottom: 20 }}>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: t.textTer, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 10, paddingBottom: 6, borderBottom: `1px solid ${t.divider}` }}>{group.label}</div>
+                  {txs.map((tx, i) => (
+                    <div key={i} onClick={() => setSelectedContact({ name: tx.name, avatarKey: tx.avatarKey })} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 0", borderBottom: i < txs.length - 1 ? `1px solid ${t.divider}` : "none", cursor: "pointer", transition: "all 0.2s" }}>
+                      <div style={{ width: 44, height: 44, borderRadius: "50%", overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,0.2)", flexShrink: 0, border: `1px solid ${t.cardBorder}`, position: "relative" }}>
+                        <img src={AVATAR_IMAGES[tx.avatarKey]} alt={tx.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
+                          <span style={{ fontSize: 14, fontWeight: 700, color: t.text }}>{tx.name}</span>
+                          {statusBadge(tx.status)}
+                        </div>
+                        <div style={{ fontSize: 12, color: t.textTer, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{tx.note || tx.desc}</div>
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2, flexShrink: 0 }}>
+                        <div style={{ fontSize: 15, fontWeight: 700, color: tx.status === "pending" ? t.gold : tx.isReceived ? t.green : t.text }}>{tx.amount}</div>
+                        <div style={{ fontSize: 11, color: t.textTer }}>{tx.timeAgo}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
+          </div>
+        )}
 
-        {/* Transaction List */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-          {recentActivity.filter(tx => tx.name.toLowerCase().includes(searchVal.toLowerCase())).map((tx, i, filtered) => (
-            <div key={i} onClick={() => setSelectedContact({ name: tx.name, avatarKey: tx.avatarKey })} style={{
-              display: "flex", alignItems: "center", justifyContent: "space-between",
-              padding: "14px 0", borderBottom: i < filtered.length - 1 ? `1px solid ${t.divider}` : "none",
-              cursor: "pointer", transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
-            }}
-              onMouseDown={(e) => { e.currentTarget.style.opacity = 0.7; }}
-              onMouseUp={(e) => { e.currentTarget.style.opacity = 1; }}
-              onMouseLeave={(e) => { e.currentTarget.style.opacity = 1; }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: 12, flex: 1 }}>
-                <div style={{
-                  width: 44, height: 44, borderRadius: "50%", overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-                  flexShrink: 0, border: `1px solid ${t.cardBorder}`,
-                }}><img src={AVATAR_IMAGES[tx.avatarKey]} alt={tx.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", color: t.text, marginBottom: 2 }}>{tx.name}</div>
-                  <div style={{ fontSize: 13, color: t.textTer }}>{tx.desc}</div>
+        {/* ── Requests Tab ── */}
+        {selectedTab === "requests" && (
+          <div>
+            {/* Incoming Requests */}
+            <div style={{ fontSize: 13, fontWeight: 700, color: t.text, marginBottom: 12 }}>Incoming Requests</div>
+            {pendingRequests.filter(r => r.type === "incoming").map((req) => (
+              <div key={req.id} style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "16px", marginBottom: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: "50%", overflow: "hidden", border: `1px solid ${t.cardBorder}` }}>
+                    <img src={AVATAR_IMAGES[req.avatarKey]} alt={req.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: t.text }}>{req.name}</div>
+                    <div style={{ fontSize: 12, color: t.textTer }}>{req.note} · {req.timeAgo}</div>
+                  </div>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: t.text }}>{req.amount}</div>
+                </div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <button onClick={() => showToast(`Paid ${req.name} ${req.amount}`)} style={{ flex: 1, padding: "10px", borderRadius: t.radius.sm, background: t.green, border: "none", color: "#fff", fontSize: 13, fontWeight: 700, cursor: "pointer" }}>Pay</button>
+                  <button onClick={() => showToast("Request declined")} style={{ flex: 1, padding: "10px", borderRadius: t.radius.sm, background: "transparent", border: `1px solid ${t.red}`, color: t.red, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>Decline</button>
                 </div>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
-                <div style={{ fontSize: 15, fontWeight: 700, color: tx.isReceived ? t.green : t.text }}>
-                  {tx.amount}
+            ))}
+
+            {/* Outgoing Requests */}
+            <div style={{ fontSize: 13, fontWeight: 700, color: t.text, marginTop: 24, marginBottom: 12 }}>Outgoing Requests</div>
+            {pendingRequests.filter(r => r.type === "outgoing").map((req) => (
+              <div key={req.id} style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "16px", marginBottom: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: "50%", overflow: "hidden", border: `1px solid ${t.cardBorder}` }}>
+                    <img src={AVATAR_IMAGES[req.avatarKey]} alt={req.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: t.text }}>{req.name}</div>
+                    <div style={{ fontSize: 12, color: t.textTer }}>{req.note} · {req.timeAgo}</div>
+                  </div>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: t.gold }}>{req.amount}</div>
                 </div>
-                <div style={{ fontSize: 12, color: t.textTer }}>{tx.timeAgo}</div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <button onClick={() => showToast(`Reminder sent to ${req.name}`)} style={{ flex: 1, padding: "10px", borderRadius: t.radius.sm, background: t.surface, border: `1px solid ${t.cardBorder}`, color: t.text, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>Remind</button>
+                  <button onClick={() => showToast("Request cancelled")} style={{ flex: 1, padding: "10px", borderRadius: t.radius.sm, background: "transparent", border: `1px solid ${t.textTer}`, color: t.textTer, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>Cancel</button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Send Money Button */}
-        <button onClick={() => { setShowSend(true); setSendStep(1); setSendAmount(""); setSendTo(null); }} style={{
-          width: "100%", padding: "16px", borderRadius: t.radius.lg, border: "none",
-          background: t.green, color: "#fff", fontSize: 17, fontWeight: 600,
-          cursor: "pointer", boxShadow: "0 6px 24px rgba(58,143,60,0.3)",
-          transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)", letterSpacing: 0.3, marginTop: 24,
-        }}
-          onMouseDown={(e) => { e.currentTarget.style.transform = "scale(0.98)"; }}
-          onMouseUp={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
-        >Send Money</button>
+        <button onClick={() => { setShowSend(true); setSendStep(1); setSendAmount(""); setSendNote(""); setSendTo(null); }} style={{ width: "100%", padding: "16px", borderRadius: t.radius.lg, border: "none", background: t.green, color: "#fff", fontSize: 17, fontWeight: 600, cursor: "pointer", boxShadow: "0 6px 24px rgba(58,143,60,0.3)", transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)", letterSpacing: 0.3, marginTop: 24 }}>Send Money</button>
 
-        {/* Send Money Flow Overlay */}
+        {/* ── Send Money Flow Overlay ── */}
         {showSend && (
-          <div style={{
-            position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
-            background: "rgba(0,0,0,0.75)", backdropFilter: t.blur, WebkitBackdropFilter: t.blur, zIndex: 2000,
-            display: "flex", alignItems: "flex-end",
-          }}>
-            <div style={{
-              width: "100%", background: t.bg, borderRadius: "24px 24px 0 0",
-              padding: "24px 20px 40px", maxHeight: "90vh", overflowY: "auto",
-            }}>
-              {/* Step 1: Select Recipient */}
+          <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.75)", backdropFilter: t.blur, WebkitBackdropFilter: t.blur, zIndex: 2000, display: "flex", alignItems: "flex-end" }}>
+            <div style={{ width: "100%", background: t.bg, borderRadius: "24px 24px 0 0", padding: "24px 20px 40px", maxHeight: "90vh", overflowY: "auto" }}>
               {sendStep === 1 && (
                 <>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
                     <h2 style={{ fontSize: 20, fontWeight: 700, color: t.text, margin: 0 }}>Send Money</h2>
-                    <button onClick={() => setShowSend(false)} style={{
-                      background: "none", border: "none", color: t.textSec, cursor: "pointer", fontSize: 28,
-                    }}>×</button>
+                    <button onClick={() => setShowSend(false)} style={{ background: "none", border: "none", color: t.textSec, cursor: "pointer", fontSize: 28 }}>×</button>
                   </div>
-                  <div style={{
-                    display: "flex", alignItems: "center", gap: 10,
-                    background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md,
-                    padding: "10px 14px", marginBottom: 20
-                  }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "10px 14px", marginBottom: 20 }}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={t.textTer} strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                    <input type="text" placeholder="Search contacts" onChange={(e) => setSendSearchVal(e.target.value)} style={{
-                      flex: 1, background: "none", border: "none", color: t.text,
-                      fontSize: 15, outline: "none", fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display'",
-                    }} />
+                    <input type="text" placeholder="Search contacts" onChange={(e) => setSendSearchVal(e.target.value)} style={{ flex: 1, background: "none", border: "none", color: t.text, fontSize: 15, outline: "none", fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display'" }} />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                     {recentContacts.filter(c => c.name.toLowerCase().includes(sendSearchVal.toLowerCase())).map((contact, i) => (
-                      <div key={i} onClick={() => { setSendTo(contact); setSendStep(2); setSendSearchVal(""); }} style={{
-                        display: "flex", alignItems: "center", gap: 12, padding: "12px 0",
-                        cursor: "pointer", borderBottom: `1px solid ${t.divider}`,
-                      }}>
-                        <div style={{
-                          width: 44, height: 44, borderRadius: "50%", overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-                          border: `1px solid ${t.cardBorder}`,
-                        }}>
+                      <div key={i} onClick={() => { setSendTo(contact); setSendStep(2); setSendSearchVal(""); }} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 0", cursor: "pointer", borderBottom: `1px solid ${t.divider}` }}>
+                        <div style={{ width: 44, height: 44, borderRadius: "50%", overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,0.2)", border: `1px solid ${t.cardBorder}` }}>
                           <img src={AVATAR_IMAGES[contact.avatarKey]} alt={contact.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                         </div>
-                        <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", color: t.text }}>{contact.name}</div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", color: t.text }}>{contact.name}</div>
+                          {favorites.includes(contact.avatarKey) && <div style={{ fontSize: 11, color: t.green, fontWeight: 600 }}>Favorite</div>}
+                        </div>
                       </div>
                     ))}
                   </div>
                 </>
               )}
-
-              {/* Step 2: Enter Amount */}
               {sendStep === 2 && sendTo && (
                 <>
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
-                    <button onClick={() => setSendStep(1)} style={{
-                      background: "none", border: "none", cursor: "pointer", padding: 4,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                    }}>
+                    <button onClick={() => setSendStep(1)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={t.text} strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                     </button>
                     <h2 style={{ fontSize: 20, fontWeight: 700, color: t.text, margin: 0 }}>Send to {sendTo.name}</h2>
                   </div>
-                  <div style={{ textAlign: "center", marginBottom: 40 }}>
-                    <div style={{
-                    fontSize: 48, fontWeight: 700, marginBottom: 8,
-                    background: "linear-gradient(135deg, #ffffff 0%, #a8b5c8 50%, #ffffff 100%)",
-                    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-                  }}>
+                  <div style={{ textAlign: "center", marginBottom: 20 }}>
+                    <div style={{ fontSize: 48, fontWeight: 700, marginBottom: 8, background: "linear-gradient(135deg, #ffffff 0%, #a8b5c8 50%, #ffffff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                       ${sendAmount || "0.00"}
                     </div>
                   </div>
+                  <NoteInput note={sendNote} setNote={setSendNote} emojis={quickEmojis} />
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginBottom: 20 }}>
                     {["1","2","3","4","5","6","7","8","9",".","0","←"].map((k) => (
-                      <button key={k} onClick={() => {
-                        if (k === "←") {
-                          setSendAmount(sendAmount.slice(0, -1));
-                        } else if (k === "." && !sendAmount.includes(".")) {
-                          setSendAmount(sendAmount + k);
-                        } else if (k !== ".") {
-                          setSendAmount(sendAmount + k);
-                        }
-                      }} style={{
-                        padding: "16px 8px", borderRadius: 12,
-                        background: t.cardGrad, border: `1px solid ${t.cardBorder}`,
-                        color: t.text, fontSize: 18, fontWeight: 600,
-                        cursor: "pointer", transition: "all 0.1s",
-                      }}
-                        onMouseDown={(e) => { e.currentTarget.style.background = t.surfaceHover; }}
-                        onMouseUp={(e) => { e.currentTarget.style.background = t.card; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.background = t.card; }}
-                      >{k === "←" ? "⌫" : k}</button>
+                      <button key={k} onClick={() => { if (k === "←") setSendAmount(sendAmount.slice(0, -1)); else if (k === "." && !sendAmount.includes(".")) setSendAmount(sendAmount + k); else if (k !== ".") setSendAmount(sendAmount + k); }} style={{ padding: "16px 8px", borderRadius: 12, background: t.cardGrad, border: `1px solid ${t.cardBorder}`, color: t.text, fontSize: 18, fontWeight: 600, cursor: "pointer", transition: "all 0.1s" }}>{k === "←" ? "⌫" : k}</button>
                     ))}
                   </div>
-                  <button onClick={() => sendAmount && setSendStep(3)} disabled={!sendAmount} style={{
-                    width: "100%", padding: "14px", borderRadius: t.radius.md,
-                    background: sendAmount ? t.green : "rgba(58,143,60,0.4)", border: "none",
-                    color: "#fff", fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: sendAmount ? "pointer" : "default",
-                  }}>Continue</button>
+                  <button onClick={() => sendAmount && setSendStep(3)} disabled={!sendAmount} style={{ width: "100%", padding: "14px", borderRadius: t.radius.md, background: sendAmount ? t.green : "rgba(58,143,60,0.4)", border: "none", color: "#fff", fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: sendAmount ? "pointer" : "default" }}>Continue</button>
                 </>
               )}
-
-              {/* Step 3: Confirm */}
               {sendStep === 3 && sendTo && (
                 <>
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
-                    <button onClick={() => setSendStep(2)} style={{
-                      background: "none", border: "none", cursor: "pointer", padding: 4,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                    }}>
+                    <button onClick={() => setSendStep(2)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={t.text} strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                     </button>
                     <h2 style={{ fontSize: 20, fontWeight: 700, color: t.text, margin: 0 }}>Confirm</h2>
                   </div>
-                  <div style={{
-                    background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md,
-                    padding: "20px", marginBottom: 20,
-                  }}>
+                  <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "20px", marginBottom: 20 }}>
                     <div style={{ marginBottom: 12 }}>
                       <div style={{ fontSize: 12, color: t.textTer, marginBottom: 6 }}>TO</div>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <div style={{
-                          width: 36, height: 36, borderRadius: "50%", overflow: "hidden",
-                          border: `1px solid ${t.cardBorder}`,
-                        }}>
+                        <div style={{ width: 36, height: 36, borderRadius: "50%", overflow: "hidden", border: `1px solid ${t.cardBorder}` }}>
                           <img src={AVATAR_IMAGES[sendTo.avatarKey]} alt={sendTo.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                         </div>
                         <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", color: t.text }}>{sendTo.name}</div>
                       </div>
                     </div>
+                    {sendNote && <div style={{ fontSize: 13, color: t.textSec, padding: "8px 0", borderTop: `1px solid ${t.divider}`, marginTop: 8 }}>{sendNote}</div>}
                     <div style={{ borderTop: `1px solid ${t.divider}`, paddingTop: 12, marginTop: 12 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
                         <span style={{ fontSize: 14, color: t.textSec }}>Amount</span>
@@ -2504,80 +2441,42 @@ function CoinZoomRedesign() {
                       </div>
                     </div>
                   </div>
-                  <button onClick={() => { setSendStep(4); setSendComplete(true); }} style={{
-                    width: "100%", padding: "14px", borderRadius: t.radius.md,
-                    background: t.green, border: "none", color: "#fff",
-                    fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer",
-                  }}>Send ${sendAmount}</button>
+                  <button onClick={() => { setSendStep(4); setSendComplete(true); }} style={{ width: "100%", padding: "14px", borderRadius: t.radius.md, background: t.green, border: "none", color: "#fff", fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer" }}>Send ${sendAmount}</button>
                 </>
               )}
-
-              {/* Step 4: Success */}
               {sendStep === 4 && sendComplete && sendTo && (
                 <div style={{ textAlign: "center", paddingTop: 20 }}>
-                  <div style={{
-                    width: 80, height: 80, borderRadius: "50%", background: t.greenGlow,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    margin: "0 auto 24px", border: `2px solid ${t.green}`,
-                  }}>
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
+                  <div style={{ width: 80, height: 80, borderRadius: "50%", background: t.greenGlow, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", border: `2px solid ${t.green}` }}>
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   </div>
-                  <h2 style={{ fontSize: 26, fontWeight: 700, color: t.text, letterSpacing: "-0.02em", margin: "0 0 12px" }}>Money Sent!</h2>
-                  <p style={{ fontSize: 16, color: t.textSec, margin: "0 0 24px" }}>${sendAmount} sent to {sendTo.name}</p>
-                  <button onClick={() => setShowSend(false)} style={{
-                    width: "100%", padding: "14px", borderRadius: t.radius.md,
-                    background: t.green, border: "none", color: "#fff",
-                    fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer",
-                  }}>Done</button>
+                  <h2 style={{ fontSize: 26, fontWeight: 700, color: t.text, letterSpacing: "-0.02em", margin: "0 0 8px" }}>Money Sent!</h2>
+                  <p style={{ fontSize: 16, color: t.textSec, margin: "0 0 4px" }}>${sendAmount} sent to {sendTo.name}</p>
+                  {sendNote && <p style={{ fontSize: 14, color: t.textTer, margin: "0 0 24px" }}>{sendNote}</p>}
+                  <button onClick={() => setShowSend(false)} style={{ width: "100%", padding: "14px", borderRadius: t.radius.md, background: t.green, border: "none", color: "#fff", fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer" }}>Done</button>
                 </div>
               )}
             </div>
           </div>
         )}
 
-        {/* Request Money Flow Overlay */}
+        {/* ── Request Money Flow Overlay ── */}
         {showRequest && (
-          <div style={{
-            position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
-            background: "rgba(0,0,0,0.75)", backdropFilter: t.blur, WebkitBackdropFilter: t.blur, zIndex: 2000,
-            display: "flex", alignItems: "flex-end",
-          }}>
-            <div style={{
-              width: "100%", background: t.bg, borderRadius: "24px 24px 0 0",
-              padding: "24px 20px 40px", maxHeight: "90vh", overflowY: "auto",
-            }}>
-              {/* Step 1: Select Contact */}
+          <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.75)", backdropFilter: t.blur, WebkitBackdropFilter: t.blur, zIndex: 2000, display: "flex", alignItems: "flex-end" }}>
+            <div style={{ width: "100%", background: t.bg, borderRadius: "24px 24px 0 0", padding: "24px 20px 40px", maxHeight: "90vh", overflowY: "auto" }}>
               {requestStep === 1 && (
                 <>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
                     <h2 style={{ fontSize: 20, fontWeight: 700, color: t.text, margin: 0 }}>Request Money</h2>
-                    <button onClick={() => setShowRequest(false)} style={{
-                      background: "none", border: "none", color: t.textSec, cursor: "pointer", fontSize: 28,
-                    }}>×</button>
+                    <button onClick={() => setShowRequest(false)} style={{ background: "none", border: "none", color: t.textSec, cursor: "pointer", fontSize: 28 }}>×</button>
                   </div>
-                  <div style={{
-                    display: "flex", alignItems: "center", gap: 10,
-                    background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md,
-                    padding: "10px 14px", marginBottom: 20
-                  }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "10px 14px", marginBottom: 20 }}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={t.textTer} strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                    <input type="text" placeholder="Search contacts" onChange={(e) => setRequestSearchVal(e.target.value)} style={{
-                      flex: 1, background: "none", border: "none", color: t.text,
-                      fontSize: 15, outline: "none", fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display'",
-                    }} />
+                    <input type="text" placeholder="Search contacts" onChange={(e) => setRequestSearchVal(e.target.value)} style={{ flex: 1, background: "none", border: "none", color: t.text, fontSize: 15, outline: "none", fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display'" }} />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                     {recentContacts.filter(c => c.name.toLowerCase().includes(requestSearchVal.toLowerCase())).map((contact, i) => (
-                      <div key={i} onClick={() => { setRequestFrom(contact); setRequestStep(2); setRequestSearchVal(""); }} style={{
-                        display: "flex", alignItems: "center", gap: 12, padding: "12px 0",
-                        cursor: "pointer", borderBottom: `1px solid ${t.divider}`,
-                      }}>
-                        <div style={{
-                          width: 44, height: 44, borderRadius: "50%", overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-                          border: `1px solid ${t.cardBorder}`,
-                        }}>
+                      <div key={i} onClick={() => { setRequestFrom(contact); setRequestStep(2); setRequestSearchVal(""); }} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 0", cursor: "pointer", borderBottom: `1px solid ${t.divider}` }}>
+                        <div style={{ width: 44, height: 44, borderRadius: "50%", overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,0.2)", border: `1px solid ${t.cardBorder}` }}>
                           <img src={AVATAR_IMAGES[contact.avatarKey]} alt={contact.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                         </div>
                         <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", color: t.text }}>{contact.name}</div>
@@ -2586,86 +2485,45 @@ function CoinZoomRedesign() {
                   </div>
                 </>
               )}
-
-              {/* Step 2: Enter Amount */}
               {requestStep === 2 && requestFrom && (
                 <>
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
-                    <button onClick={() => setRequestStep(1)} style={{
-                      background: "none", border: "none", cursor: "pointer", padding: 4,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                    }}>
+                    <button onClick={() => setRequestStep(1)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={t.text} strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                     </button>
                     <h2 style={{ fontSize: 20, fontWeight: 700, color: t.text, margin: 0 }}>Request from {requestFrom.name}</h2>
                   </div>
-                  <div style={{ textAlign: "center", marginBottom: 40 }}>
-                    <div style={{
-                    fontSize: 48, fontWeight: 700, marginBottom: 8,
-                    background: "linear-gradient(135deg, #ffffff 0%, #a8b5c8 50%, #ffffff 100%)",
-                    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-                  }}>
-                      ${requestAmount || "0.00"}
-                    </div>
+                  <div style={{ textAlign: "center", marginBottom: 20 }}>
+                    <div style={{ fontSize: 48, fontWeight: 700, marginBottom: 8, background: "linear-gradient(135deg, #ffffff 0%, #a8b5c8 50%, #ffffff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>${requestAmount || "0.00"}</div>
                   </div>
+                  <NoteInput note={requestNote} setNote={setRequestNote} emojis={quickEmojis} />
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginBottom: 20 }}>
                     {["1","2","3","4","5","6","7","8","9",".","0","←"].map((k) => (
-                      <button key={k} onClick={() => {
-                        if (k === "←") {
-                          setRequestAmount(requestAmount.slice(0, -1));
-                        } else if (k === "." && !requestAmount.includes(".")) {
-                          setRequestAmount(requestAmount + k);
-                        } else if (k !== ".") {
-                          setRequestAmount(requestAmount + k);
-                        }
-                      }} style={{
-                        padding: "16px 8px", borderRadius: 12,
-                        background: t.cardGrad, border: `1px solid ${t.cardBorder}`,
-                        color: t.text, fontSize: 18, fontWeight: 600,
-                        cursor: "pointer", transition: "all 0.1s",
-                      }}
-                        onMouseDown={(e) => { e.currentTarget.style.background = t.surfaceHover; }}
-                        onMouseUp={(e) => { e.currentTarget.style.background = t.card; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.background = t.card; }}
-                      >{k === "←" ? "⌫" : k}</button>
+                      <button key={k} onClick={() => { if (k === "←") setRequestAmount(requestAmount.slice(0, -1)); else if (k === "." && !requestAmount.includes(".")) setRequestAmount(requestAmount + k); else if (k !== ".") setRequestAmount(requestAmount + k); }} style={{ padding: "16px 8px", borderRadius: 12, background: t.cardGrad, border: `1px solid ${t.cardBorder}`, color: t.text, fontSize: 18, fontWeight: 600, cursor: "pointer", transition: "all 0.1s" }}>{k === "←" ? "⌫" : k}</button>
                     ))}
                   </div>
-                  <button onClick={() => requestAmount && setRequestStep(3)} disabled={!requestAmount} style={{
-                    width: "100%", padding: "14px", borderRadius: t.radius.md,
-                    background: requestAmount ? t.green : "rgba(58,143,60,0.4)", border: "none",
-                    color: "#fff", fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: requestAmount ? "pointer" : "default",
-                  }}>Continue</button>
+                  <button onClick={() => requestAmount && setRequestStep(3)} disabled={!requestAmount} style={{ width: "100%", padding: "14px", borderRadius: t.radius.md, background: requestAmount ? t.green : "rgba(58,143,60,0.4)", border: "none", color: "#fff", fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: requestAmount ? "pointer" : "default" }}>Continue</button>
                 </>
               )}
-
-              {/* Step 3: Confirm */}
               {requestStep === 3 && requestFrom && (
                 <>
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
-                    <button onClick={() => setRequestStep(2)} style={{
-                      background: "none", border: "none", cursor: "pointer", padding: 4,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                    }}>
+                    <button onClick={() => setRequestStep(2)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={t.text} strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                     </button>
                     <h2 style={{ fontSize: 20, fontWeight: 700, color: t.text, margin: 0 }}>Confirm</h2>
                   </div>
-                  <div style={{
-                    background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md,
-                    padding: "20px", marginBottom: 20,
-                  }}>
+                  <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "20px", marginBottom: 20 }}>
                     <div style={{ marginBottom: 12 }}>
                       <div style={{ fontSize: 12, color: t.textTer, marginBottom: 6 }}>FROM</div>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <div style={{
-                          width: 36, height: 36, borderRadius: "50%", overflow: "hidden",
-                          border: `1px solid ${t.cardBorder}`,
-                        }}>
+                        <div style={{ width: 36, height: 36, borderRadius: "50%", overflow: "hidden", border: `1px solid ${t.cardBorder}` }}>
                           <img src={AVATAR_IMAGES[requestFrom.avatarKey]} alt={requestFrom.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                         </div>
                         <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", color: t.text }}>{requestFrom.name}</div>
                       </div>
                     </div>
+                    {requestNote && <div style={{ fontSize: 13, color: t.textSec, padding: "8px 0", borderTop: `1px solid ${t.divider}`, marginTop: 8 }}>{requestNote}</div>}
                     <div style={{ borderTop: `1px solid ${t.divider}`, paddingTop: 12, marginTop: 12 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
                         <span style={{ fontSize: 14, color: t.textSec }}>Amount</span>
@@ -2681,33 +2539,159 @@ function CoinZoomRedesign() {
                       </div>
                     </div>
                   </div>
-                  <button onClick={() => { setRequestStep(4); setRequestComplete(true); }} style={{
-                    width: "100%", padding: "14px", borderRadius: t.radius.md,
-                    background: t.green, border: "none", color: "#fff",
-                    fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer",
-                  }}>Request ${requestAmount}</button>
+                  <button onClick={() => { setRequestStep(4); setRequestComplete(true); }} style={{ width: "100%", padding: "14px", borderRadius: t.radius.md, background: t.green, border: "none", color: "#fff", fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer" }}>Request ${requestAmount}</button>
                 </>
               )}
-
-              {/* Step 4: Success */}
               {requestStep === 4 && requestComplete && requestFrom && (
                 <div style={{ textAlign: "center", paddingTop: 20 }}>
-                  <div style={{
-                    width: 80, height: 80, borderRadius: "50%", background: t.greenGlow,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    margin: "0 auto 24px", border: `2px solid ${t.green}`,
-                  }}>
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
+                  <div style={{ width: 80, height: 80, borderRadius: "50%", background: t.greenGlow, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", border: `2px solid ${t.green}` }}>
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   </div>
-                  <h2 style={{ fontSize: 26, fontWeight: 700, color: t.text, letterSpacing: "-0.02em", margin: "0 0 12px" }}>Request Sent!</h2>
-                  <p style={{ fontSize: 16, color: t.textSec, margin: "0 0 24px" }}>${requestAmount} request sent to {requestFrom.name}</p>
-                  <button onClick={() => setShowRequest(false)} style={{
-                    width: "100%", padding: "14px", borderRadius: t.radius.md,
-                    background: t.green, border: "none", color: "#fff",
-                    fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer",
-                  }}>Done</button>
+                  <h2 style={{ fontSize: 26, fontWeight: 700, color: t.text, letterSpacing: "-0.02em", margin: "0 0 8px" }}>Request Sent!</h2>
+                  <p style={{ fontSize: 16, color: t.textSec, margin: "0 0 4px" }}>${requestAmount} request sent to {requestFrom.name}</p>
+                  {requestNote && <p style={{ fontSize: 14, color: t.textTer, margin: "0 0 24px" }}>{requestNote}</p>}
+                  <button onClick={() => setShowRequest(false)} style={{ width: "100%", padding: "14px", borderRadius: t.radius.md, background: t.green, border: "none", color: "#fff", fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", cursor: "pointer" }}>Done</button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ── Split Bill Flow Overlay ── */}
+        {showSplit && (
+          <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.75)", backdropFilter: t.blur, WebkitBackdropFilter: t.blur, zIndex: 2000, display: "flex", alignItems: "flex-end" }}>
+            <div style={{ width: "100%", background: t.bg, borderRadius: "24px 24px 0 0", padding: "24px 20px 40px", maxHeight: "90vh", overflowY: "auto" }}>
+              {splitStep === 1 && (
+                <>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+                    <h2 style={{ fontSize: 20, fontWeight: 700, color: t.text, margin: 0 }}>Split a Bill</h2>
+                    <button onClick={() => setShowSplit(false)} style={{ background: "none", border: "none", color: t.textSec, cursor: "pointer", fontSize: 28 }}>×</button>
+                  </div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: t.textSec, marginBottom: 12 }}>Select people to split with</div>
+                  {recentContacts.map((contact, i) => {
+                    const isSelected = splitSelected.includes(contact.avatarKey);
+                    return (
+                      <div key={i} onClick={() => setSplitSelected(prev => isSelected ? prev.filter(k => k !== contact.avatarKey) : [...prev, contact.avatarKey])} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 0", cursor: "pointer", borderBottom: `1px solid ${t.divider}` }}>
+                        <div style={{ width: 24, height: 24, borderRadius: 6, border: isSelected ? `2px solid ${t.green}` : `2px solid ${t.textTer}`, background: isSelected ? t.green : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          {isSelected && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>}
+                        </div>
+                        <div style={{ width: 40, height: 40, borderRadius: "50%", overflow: "hidden", border: `1px solid ${t.cardBorder}` }}>
+                          <img src={AVATAR_IMAGES[contact.avatarKey]} alt={contact.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        </div>
+                        <div style={{ fontSize: 15, fontWeight: 600, color: t.text }}>{contact.name}</div>
+                      </div>
+                    );
+                  })}
+                  <button onClick={() => splitSelected.length > 0 && setSplitStep(2)} disabled={splitSelected.length === 0} style={{ width: "100%", padding: "14px", borderRadius: t.radius.md, background: splitSelected.length > 0 ? t.green : "rgba(58,143,60,0.4)", border: "none", color: "#fff", fontSize: 15, fontWeight: 700, cursor: splitSelected.length > 0 ? "pointer" : "default", marginTop: 16 }}>Continue ({splitSelected.length} selected)</button>
+                </>
+              )}
+              {splitStep === 2 && (
+                <>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+                    <button onClick={() => setSplitStep(1)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={t.text} strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    </button>
+                    <h2 style={{ fontSize: 20, fontWeight: 700, color: t.text, margin: 0 }}>Total Amount</h2>
+                  </div>
+                  <div style={{ textAlign: "center", marginBottom: 12 }}>
+                    <div style={{ fontSize: 48, fontWeight: 700, background: "linear-gradient(135deg, #ffffff 0%, #a8b5c8 50%, #ffffff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>${splitAmount || "0.00"}</div>
+                    {splitAmount && <div style={{ fontSize: 14, color: t.green, fontWeight: 600, marginTop: 4 }}>${(parseFloat(splitAmount) / (splitSelected.length + 1)).toFixed(2)} each ({splitSelected.length + 1} people)</div>}
+                  </div>
+                  <NoteInput note={splitNote} setNote={setSplitNote} emojis={quickEmojis} />
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginBottom: 20 }}>
+                    {["1","2","3","4","5","6","7","8","9",".","0","←"].map((k) => (
+                      <button key={k} onClick={() => { if (k === "←") setSplitAmount(splitAmount.slice(0, -1)); else if (k === "." && !splitAmount.includes(".")) setSplitAmount(splitAmount + k); else if (k !== ".") setSplitAmount(splitAmount + k); }} style={{ padding: "16px 8px", borderRadius: 12, background: t.cardGrad, border: `1px solid ${t.cardBorder}`, color: t.text, fontSize: 18, fontWeight: 600, cursor: "pointer" }}>{k === "←" ? "⌫" : k}</button>
+                    ))}
+                  </div>
+                  <button onClick={() => splitAmount && setSplitStep(3)} disabled={!splitAmount} style={{ width: "100%", padding: "14px", borderRadius: t.radius.md, background: splitAmount ? t.green : "rgba(58,143,60,0.4)", border: "none", color: "#fff", fontSize: 15, fontWeight: 700, cursor: splitAmount ? "pointer" : "default" }}>Review Split</button>
+                </>
+              )}
+              {splitStep === 3 && (
+                <>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+                    <button onClick={() => setSplitStep(2)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={t.text} strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    </button>
+                    <h2 style={{ fontSize: 20, fontWeight: 700, color: t.text, margin: 0 }}>Review Split</h2>
+                  </div>
+                  <div style={{ background: t.cardGrad, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, padding: "20px", marginBottom: 20 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12, paddingBottom: 12, borderBottom: `1px solid ${t.divider}` }}>
+                      <span style={{ fontSize: 14, color: t.textSec }}>Total Bill</span>
+                      <span style={{ fontSize: 16, fontWeight: 700, color: t.text }}>${splitAmount}</span>
+                    </div>
+                    {splitNote && <div style={{ fontSize: 13, color: t.textSec, marginBottom: 12 }}>{splitNote}</div>}
+                    <div style={{ fontSize: 12, fontWeight: 600, color: t.textTer, marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.05em" }}>Requesting from</div>
+                    {splitSelected.map((key) => {
+                      const c = recentContacts.find(cc => cc.avatarKey === key);
+                      if (!c) return null;
+                      return (
+                        <div key={key} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                          <div style={{ width: 32, height: 32, borderRadius: "50%", overflow: "hidden", border: `1px solid ${t.cardBorder}` }}>
+                            <img src={AVATAR_IMAGES[c.avatarKey]} alt={c.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                          </div>
+                          <div style={{ flex: 1, fontSize: 14, fontWeight: 600, color: t.text }}>{c.name}</div>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: t.green }}>${(parseFloat(splitAmount) / (splitSelected.length + 1)).toFixed(2)}</div>
+                        </div>
+                      );
+                    })}
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 10, paddingTop: 10, borderTop: `1px solid ${t.divider}` }}>
+                      <div style={{ width: 32, height: 32, borderRadius: "50%", overflow: "hidden", border: `2px solid ${t.green}` }}>
+                        <img src={TODD_AVATAR} alt="You" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      </div>
+                      <div style={{ flex: 1, fontSize: 14, fontWeight: 600, color: t.text }}>You</div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: t.text }}>${(parseFloat(splitAmount) / (splitSelected.length + 1)).toFixed(2)}</div>
+                    </div>
+                  </div>
+                  <button onClick={() => { setSplitStep(4); setSplitComplete(true); }} style={{ width: "100%", padding: "14px", borderRadius: t.radius.md, background: t.green, border: "none", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Send Requests</button>
+                </>
+              )}
+              {splitStep === 4 && splitComplete && (
+                <div style={{ textAlign: "center", paddingTop: 20 }}>
+                  <div style={{ width: 80, height: 80, borderRadius: "50%", background: t.greenGlow, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", border: `2px solid ${t.green}` }}>
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <h2 style={{ fontSize: 26, fontWeight: 700, color: t.text, letterSpacing: "-0.02em", margin: "0 0 8px" }}>Split Sent!</h2>
+                  <p style={{ fontSize: 16, color: t.textSec, margin: "0 0 4px" }}>${(parseFloat(splitAmount) / (splitSelected.length + 1)).toFixed(2)} requested from {splitSelected.length} {splitSelected.length === 1 ? "person" : "people"}</p>
+                  {splitNote && <p style={{ fontSize: 14, color: t.textTer, margin: "0 0 24px" }}>{splitNote}</p>}
+                  <button onClick={() => setShowSplit(false)} style={{ width: "100%", padding: "14px", borderRadius: t.radius.md, background: t.green, border: "none", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Done</button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ── Pay New Person Overlay ── */}
+        {showNewPay && (
+          <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.75)", backdropFilter: t.blur, WebkitBackdropFilter: t.blur, zIndex: 2000, display: "flex", alignItems: "flex-end" }}>
+            <div style={{ width: "100%", background: t.bg, borderRadius: "24px 24px 0 0", padding: "24px 20px 40px", maxHeight: "90vh", overflowY: "auto" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+                <h2 style={{ fontSize: 20, fontWeight: 700, color: t.text, margin: 0 }}>Send to Someone New</h2>
+                <button onClick={() => { setShowNewPay(false); setNewPayInput(""); setNewPayFound(null); }} style={{ background: "none", border: "none", color: t.textSec, cursor: "pointer", fontSize: 28 }}>×</button>
+              </div>
+              <div style={{ fontSize: 13, color: t.textSec, marginBottom: 16 }}>Enter a phone number, email, or CoinZoom username</div>
+              <input type="text" placeholder="Phone, email, or @username" value={newPayInput} onChange={(e) => { setNewPayInput(e.target.value); setNewPayFound(null); }} style={{ width: "100%", padding: "14px 16px", background: t.surface, border: `1px solid ${t.cardBorder}`, borderRadius: t.radius.md, color: t.text, fontSize: 16, outline: "none", fontFamily: "inherit", boxSizing: "border-box", marginBottom: 16 }} />
+              {newPayInput.length >= 3 && !newPayFound && (
+                <button onClick={() => setNewPayFound({ name: newPayInput.startsWith("@") ? newPayInput.slice(1) : "New User", avatarKey: "bob" })} style={{ width: "100%", padding: "14px", borderRadius: t.radius.md, background: t.surface, border: `1px solid ${t.cardBorder}`, color: t.text, fontSize: 15, fontWeight: 600, cursor: "pointer", marginBottom: 16 }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2" style={{ verticalAlign: "middle", marginRight: 8 }}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                  Look up "{newPayInput}"
+                </button>
+              )}
+              {newPayFound && (
+                <div style={{ background: t.cardGrad, border: `1px solid ${t.greenBorder}`, borderRadius: t.radius.md, padding: "16px", marginBottom: 16 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{ width: 48, height: 48, borderRadius: "50%", background: t.green, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, fontWeight: 700, color: "#fff" }}>{newPayFound.name[0].toUpperCase()}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: t.text }}>{newPayFound.name}</div>
+                      <div style={{ fontSize: 12, color: t.green }}>CoinZoom User Found</div>
+                    </div>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={t.green} strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                </div>
+              )}
+              {newPayFound && (
+                <div style={{ display: "flex", gap: 10 }}>
+                  <button onClick={() => { setShowNewPay(false); setShowSend(true); setSendStep(2); setSendAmount(""); setSendNote(""); setSendTo(newPayFound); setNewPayInput(""); setNewPayFound(null); }} style={{ flex: 1, padding: "14px", borderRadius: t.radius.md, background: t.green, border: "none", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Send Money</button>
+                  <button onClick={() => { setShowNewPay(false); setShowRequest(true); setRequestStep(2); setRequestAmount(""); setRequestNote(""); setRequestFrom(newPayFound); setNewPayInput(""); setNewPayFound(null); }} style={{ flex: 1, padding: "14px", borderRadius: t.radius.md, background: t.cardGrad, border: `1px solid ${t.cardBorder}`, color: t.text, fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Request</button>
                 </div>
               )}
             </div>
