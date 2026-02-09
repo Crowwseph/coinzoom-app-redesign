@@ -2133,9 +2133,9 @@ function CoinZoomRedesign() {
 
     const allActivity = [
       { name: "Todd", desc: "Dinner split", note: "\u{1F355} Pizza night", amount: "+$25.00", isReceived: true, timeAgo: "2h ago", avatarKey: "todd", status: "completed", date: "today" },
-      { name: "Bob Chen", desc: "Payment request", note: "Concert tix", amount: "$45.00", isReceived: false, timeAgo: "3h ago", avatarKey: "bob", status: "pending", date: "today" },
+      { name: "Bob Chen", desc: "Payment sent", note: "Concert tix", amount: "-$45.00", isReceived: false, timeAgo: "3h ago", avatarKey: "bob", status: "completed", date: "today" },
       { name: "Sarah Kim", desc: "Movie tickets", note: "\u{1F3AC} Friday movie", amount: "-$50.00", isReceived: false, timeAgo: "1d ago", avatarKey: "sarah", status: "completed", date: "yesterday" },
-      { name: "David Lee", desc: "Uber split", note: "\u{1F697} Ride share", amount: "-$22.50", isReceived: false, timeAgo: "1d ago", avatarKey: "david", status: "pending", date: "yesterday" },
+      { name: "David Lee", desc: "Uber split", note: "\u{1F697} Ride share", amount: "-$22.50", isReceived: false, timeAgo: "1d ago", avatarKey: "david", status: "completed", date: "yesterday" },
       { name: "Alice Rodriguez", desc: "Coffee", note: "\u{2615} Morning latte", amount: "+$8.50", isReceived: true, timeAgo: "3d ago", avatarKey: "alice", status: "completed", date: "this_week" },
       { name: "Todd", desc: "Gas money", note: "\u{26FD} Road trip", amount: "+$35.00", isReceived: true, timeAgo: "4d ago", avatarKey: "todd", status: "completed", date: "this_week" },
       { name: "Sarah Kim", desc: "Groceries", note: "\u{1F6D2} Costco run", amount: "-$62.30", isReceived: false, timeAgo: "5d ago", avatarKey: "sarah", status: "completed", date: "this_week" },
@@ -2281,7 +2281,7 @@ function CoinZoomRedesign() {
                         <div style={{ fontSize: 12, color: t.textTer, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{tx.note || tx.desc}</div>
                       </div>
                       <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2, flexShrink: 0 }}>
-                        <div style={{ fontSize: 15, fontWeight: 700, color: tx.status === "pending" ? t.gold : tx.isReceived ? t.green : t.text }}>{tx.amount}</div>
+                        <div style={{ fontSize: 15, fontWeight: 700, color: tx.isReceived ? t.green : t.text }}>{tx.amount}</div>
                         <div style={{ fontSize: 11, color: t.textTer }}>{tx.timeAgo}</div>
                       </div>
                     </div>
