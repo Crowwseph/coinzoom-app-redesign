@@ -440,6 +440,7 @@ function CoinZoomRedesign() {
   const [moreSubScreen, setMoreSubScreen] = useState(null);
   const [tradingView, setTradingView] = useState("market");
   const [selectedArticle, setSelectedArticle] = useState(null);
+  const savedScrollPos = useRef(0);
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [tradeType, setTradeType] = useState("buy");
   const [tradeSearchVal, setTradeSearchVal] = useState("");
@@ -609,7 +610,7 @@ function CoinZoomRedesign() {
             </div>
 
             {/* Featured Article — First article gets a large card */}
-            <div onClick={() => { setSelectedArticle(trendingArticles[0]); setTradingView("article"); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{
+            <div onClick={() => { savedScrollPos.current = window.scrollY; setSelectedArticle(trendingArticles[0]); setTradingView("article"); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{
               borderRadius: t.radius.lg,
               background: t.cardGrad,
               border: `1px solid ${t.cardBorder}`,
@@ -650,7 +651,7 @@ function CoinZoomRedesign() {
 
             {/* Remaining articles — compact list cards */}
             {trendingArticles.slice(1).map(article => (
-              <div key={article.id} onClick={() => { setSelectedArticle(article); setTradingView("article"); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{
+              <div key={article.id} onClick={() => { savedScrollPos.current = window.scrollY; setSelectedArticle(article); setTradingView("article"); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{
                 display: "flex",
                 gap: 12,
                 padding: "14px 0",
@@ -703,7 +704,7 @@ function CoinZoomRedesign() {
         <div style={{ padding: "0 20px 120px" }}>
           {/* Header */}
           <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 0 20px" }}>
-            <div onClick={() => { setTradingView("market"); setSelectedArticle(null); }} style={{ cursor: "pointer", display: "flex", width: 36, height: 36, borderRadius: t.radius.full, background: t.surface, alignItems: "center", justifyContent: "center", transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)" }}><Icons.Back /></div>
+            <div onClick={() => { setTradingView("market"); setSelectedArticle(null); setTimeout(() => window.scrollTo({ top: savedScrollPos.current, behavior: "smooth" }), 50); }} style={{ cursor: "pointer", display: "flex", width: 36, height: 36, borderRadius: t.radius.full, background: t.surface, alignItems: "center", justifyContent: "center", transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)" }}><Icons.Back /></div>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 14, fontWeight: 600, color: t.text }}>Article</div>
               <div style={{ fontSize: 11, color: t.textTer }}>{art.source}</div>
